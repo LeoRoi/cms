@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d7002389-9e04-4023-824e-0f22f2ebcc8e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cnn/1163150_lecture_01-intro.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cnn/1163150_lecture_02-Bildklassifikation.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cnn/1163150_lecture_03-FehlerfunktionOptimierung.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cnn/1163150_lecture_04-nnIntro.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cnn/1163150_lecture_05-Convolutional Neural Networks.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cnn/1163150_lecture_06-training.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cnn/1163150_lecture_07-training2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cnn/1163150_lecture_08-Frameworks.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cnn/1163150_lecture_09-CNNArchitekturen.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cnn/CNN" beforeDir="false" afterPath="$PROJECT_DIR$/../../cnn/CNN" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../cnn/Lehrplan.htm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../study.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../study.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/B42.1 Webentwicklung Organisatorisches.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/B42.2 Webentwicklung Grundlagen.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/B42.3 Was ist Ruby.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/Rails5.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/WD" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/eShopTest" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u11/bew.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u11/briefcase.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u11/cv.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u11/exp.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u11/groot.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u11/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u11/u1.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u11/u1.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u11/u1_cv.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u11/u1_timeline.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u11/writing-pad.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u12/.idea/dictionaries/Lenovo.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u12/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u12/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u12/.idea/sbt.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u12/.idea/u12.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u12/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u12/bew.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u12/bootstrap.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u12/cvClassic.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u12/groot.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u12/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u12/u1.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u12/u12.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u2 Ruby on Rails.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/Gemfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/Gemfile.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/Rakefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/assets/config/manifest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/assets/images/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/assets/javascripts/application.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/assets/javascripts/cable.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/assets/javascripts/channels/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/assets/javascripts/say.coffee" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/assets/javascripts/welcome.coffee" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/assets/stylesheets/application.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/assets/stylesheets/say.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/assets/stylesheets/welcome.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/channels/application_cable/channel.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/channels/application_cable/connection.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/controllers/application_controller.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/controllers/concerns/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/controllers/say_controller.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/controllers/welcome_controller.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/helpers/application_helper.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/helpers/say_helper.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/helpers/welcome_helper.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/jobs/application_job.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/mailers/application_mailer.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/models/application_record.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/models/concerns/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/views/layouts/application.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/views/layouts/mailer.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/views/layouts/mailer.text.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/views/say/goodbuy.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/views/say/hello.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/views/welcome/goodbuy.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/app/views/welcome/index.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/bin/bundle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/bin/rails" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/bin/rake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/bin/setup" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/bin/spring" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/bin/update" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/bin/yarn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config.ru" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/application.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/boot.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/cable.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/database.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/environment.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/environments/development.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/environments/production.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/environments/test.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/initializers/application_controller_renderer.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/initializers/assets.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/initializers/backtrace_silencers.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/initializers/cookies_serializer.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/initializers/filter_parameter_logging.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/initializers/inflections.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/initializers/mime_types.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/initializers/wrap_parameters.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/locales/en.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/puma.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/routes.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/secrets.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/config/spring.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/db/seeds.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/helloWorld.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/lib/assets/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/lib/tasks/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/log/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/public/404.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/public/422.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/public/500.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/public/apple-touch-icon-precomposed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/public/apple-touch-icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/public/robots.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/test/application_system_test_case.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/test/controllers/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/test/controllers/say_controller_test.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/test/controllers/welcome_controller_test.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/test/fixtures/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/test/fixtures/files/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/test/helpers/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/test/integration/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/test/mailers/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/test/models/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/test/system/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/test/test_helper.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/tmp/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u20/vendor/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u3.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/Gemfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/Gemfile.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/Rakefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/assets/config/manifest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/assets/images/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/assets/javascripts/application.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/assets/javascripts/cable.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/assets/javascripts/channels/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/assets/javascripts/members.coffee" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/assets/javascripts/teams.coffee" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/assets/stylesheets/application.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/assets/stylesheets/members.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/assets/stylesheets/scaffolds.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/assets/stylesheets/teams.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/channels/application_cable/channel.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/channels/application_cable/connection.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/controllers/application_controller.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/controllers/concerns/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/controllers/members_controller.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/controllers/teams_controller.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/helpers/application_helper.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/helpers/members_helper.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/helpers/teams_helper.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/jobs/application_job.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/mailers/application_mailer.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/models/application_record.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/models/concerns/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/models/member.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/models/team.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/views/layouts/application.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/views/layouts/mailer.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/views/layouts/mailer.text.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/views/members/_form.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/views/members/_member.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/views/teams/_form.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/views/teams/edit.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/views/teams/index.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/views/teams/new.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/app/views/teams/show.html.erb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/bin/bundle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/bin/rails" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/bin/rake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/bin/setup" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/bin/spring" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/bin/update" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/bin/yarn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config.ru" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/application.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/boot.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/cable.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/database.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/environment.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/environments/development.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/environments/production.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/environments/test.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/initializers/application_controller_renderer.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/initializers/assets.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/initializers/backtrace_silencers.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/initializers/cookies_serializer.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/initializers/filter_parameter_logging.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/initializers/inflections.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/initializers/mime_types.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/initializers/wrap_parameters.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/locales/en.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/puma.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/routes.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/secrets.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/config/spring.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/db/migrate/20180509175759_create_teams.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/db/migrate/20180509183331_create_members.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/db/schema.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/db/seeds.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/lib/assets/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/lib/tasks/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/log/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/public/404.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/public/422.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/public/500.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/public/apple-touch-icon-precomposed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/public/apple-touch-icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/public/robots.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/application_system_test_case.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/controllers/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/controllers/members_controller_test.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/controllers/teams_controller_test.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/fixtures/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/fixtures/files/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/fixtures/members.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/fixtures/teams.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/helpers/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/integration/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/mailers/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/models/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/models/member_test.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/models/team_test.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/system/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/system/members_test.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/system/teams_test.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/test/test_helper.rb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/tmp/.keep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/u3v100.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../wd/u30/vendor/.keep" beforeDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/project/project/target/" />
+    <ignored path="$PROJECT_DIR$/project/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="6808747">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="scala" value="7" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Scala" value="6" />
+          <entry key="Scratch" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="scala" value="177" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Scala" value="89" />
+          <entry key="Scratch" value="88" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/scala/test/MatrixTest.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="8" column="22" lean-forward="true" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/scala/test/SparseMatrixMRTest.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/scala/test/SparseMatrixTest.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-694">
+              <caret line="10" column="85" lean-forward="true" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="85" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/matrix/Matrix.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="30" column="35" lean-forward="true" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/scala/matrix/SparseMatrix.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/test/scala/test/MatrixTest.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/test/SparseMatrixMRTest.scala" />
+        <option value="$PROJECT_DIR$/src/test/scala/test/SparseMatrixTest.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/matrix/SparseMatrix.scala" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.scala" />
+        <option value="$PROJECT_DIR$/src/main/scala/matrix/Matrix.scala" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="width" value="839" />
+    <option name="height" value="1022" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="uebungmatrixaufgabe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="UebungMatrixAufgabe" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="uebungmatrixaufgabe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="UebungMatrixAufgabe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="uebungmatrixaufgabe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="UebungMatrixAufgabe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="uebungmatrixaufgabe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="UebungMatrixAufgabe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="scala" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="uebungmatrixaufgabe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="UebungMatrixAufgabe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="scala" type="462c0819:PsiDirectoryNode" />
+              <item name="matrix" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="uebungmatrixaufgabe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="UebungMatrixAufgabe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="uebungmatrixaufgabe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="UebungMatrixAufgabe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="scala" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="uebungmatrixaufgabe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="UebungMatrixAufgabe" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="scala" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="uebungmatrixaufgabe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+            </path>
+            <path>
+              <item name="uebungmatrixaufgabe" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Scratches" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539632395227" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="ScalaTest.SparseMatrixTest">
+    <configuration name="SparseMatrixMRTest" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
+      <module name="MatrixCalculationsAufgabe" />
+      <setting name="path" value="test.SparseMatrixMRTest" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="showProgressMessages" value="true" />
+      <setting name="useSbt" value="false" />
+      <setting name="useUiWithSbt" value="false" />
+      <envs />
+      <setting name="testKind" value="Class" />
+      <setting name="path" value="test.SparseMatrixMRTest" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SparseMatrixTest" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true">
+      <module name="MatrixCalculationsAufgabe" />
+      <setting name="path" value="test.SparseMatrixTest" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="showProgressMessages" value="true" />
+      <setting name="useSbt" value="false" />
+      <setting name="useUiWithSbt" value="false" />
+      <envs />
+      <setting name="testKind" value="Class" />
+      <setting name="path" value="test.SparseMatrixTest" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="ScalaTest.SparseMatrixMRTest" />
+      <item itemvalue="ScalaTest.SparseMatrixTest" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="ScalaTest.SparseMatrixTest" />
+        <item itemvalue="ScalaTest.SparseMatrixMRTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SbtLocalSettings">
+    <option name="availableProjects">
+      <map>
+        <entry>
+          <key>
+            <ExternalProjectPojo>
+              <option name="name" value="MatrixCalculationsAufgabe" />
+              <option name="path" value="$PROJECT_DIR$" />
+            </ExternalProjectPojo>
+          </key>
+          <value>
+            <list>
+              <ExternalProjectPojo>
+                <option name="name" value="uebungmatrixaufgabe [file:/media/leoroi/LA0716/0S/cms/UebungMatrixAufgabe/]" />
+                <option name="path" value="$PROJECT_DIR$" />
+              </ExternalProjectPojo>
+              <ExternalProjectPojo>
+                <option name="name" value="uebungmatrixaufgabe-build [file:/media/leoroi/LA0716/0S/cms/UebungMatrixAufgabe/]" />
+                <option name="path" value="$PROJECT_DIR$/project" />
+              </ExternalProjectPojo>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="modificationStamps">
+      <map>
+        <entry key="$PROJECT_DIR$/build.sbt" value="3854532306" />
+        <entry key="$PROJECT_DIR$/project/build.properties" value="249398541" />
+        <entry key="$PROJECT_DIR$/project/plugins.sbt" value="3567733706" />
+      </map>
+    </option>
+    <option name="projectSyncType">
+      <map>
+        <entry key="$PROJECT_DIR$/../../fp/Beleg1" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../fp/Beleg1.back" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../fp/Beleg2" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../fp/Streams" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../fp/StreamsAufgabe" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../fp/Uebung4-List" value="PREVIEW" />
+        <entry key="$PROJECT_DIR$/../../fp/exam" value="PREVIEW" />
+      </map>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d7002389-9e04-4023-824e-0f22f2ebcc8e" name="Default Changelist" comment="" />
+      <created>1539626339923</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1539626339923</updated>
+      <workItem from="1539626344626" duration="3361000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="SparseMatrixMRTest - 2018.10.15 at 20h 03m 33s.xml">
+      <configuration name="SparseMatrixMRTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="SparseMatrixTest - 2018.10.15 at 21h 13m 20s.xml">
+      <configuration name="SparseMatrixTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="SparseMatrixTest - 2018.10.15 at 21h 24m 52s.xml">
+      <configuration name="SparseMatrixTest" configurationId="ScalaTestRunConfiguration" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="3361000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="-1" width="1680" height="1023" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Designer" />
+      <window_info id="Image Layers" />
+      <window_info id="UI Designer" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info id="Capture Tool" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11933905" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Build" weight="0.32998884" />
+      <window_info anchor="bottom" id="sbt-shell-toolwindow" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32998884" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette" />
+      <window_info anchor="right" id="sbt" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Maven Projects" />
+      <window_info anchor="right" id="Gradle" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/test/scala/test/MatrixTest.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="8" column="22" lean-forward="true" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/common/package.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="15" selection-start-column="15" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/matrix/SparseMatrix.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/test/SparseMatrixTest.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-694">
+          <caret line="10" column="85" lean-forward="true" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/scala/test/SparseMatrixMRTest.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/scala/matrix/Matrix.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="35" lean-forward="true" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
