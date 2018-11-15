@@ -79,17 +79,38 @@ object JaccardSimilarity {
    */
 
   def minHash[T](matrix: Array[Array[T]], hFuns: Array[Int => Int]): Array[Array[Int]] = {
-    val out = new Array[Array[Int]](matrix.length)
-    val hashes = new Array[(Int, Int, Int)](hFuns.length)
+    val out = new Array[Array[Int]](hFuns.length) // 2 x ? (4)
+    val hashes = Array.ofDim[Int](matrix.length, hFuns.length) // 5 x 2
 
-    for (i <- out.indices) {
-      out(i) = new Array[Int](matrix(i).length)
-      for (j <- hashes.indices) {
-        hashes(j) = (i, j, hFuns(j)(i))
+    // calculate revolvers for each row
+    for (i <- matrix.indices) {
+      println()
+      for (j <- hFuns.indices) {
+        hashes(i)(j) = hFuns(j)(i)
+        println(hFuns(j)(i))
       }
     }
 
-    out.map(row => )
+    // init signature matrix >> 2 x 4
+    for(i <- out.indices) {
+      out(i) = new Array[Int](matrix(i).length)
+      for(j <- out(i).indices)
+        out(i)(j) = Integer.MAX_VALUE
+    }
+
+    println(out)
+
+    def updateSignatureRow(row: Int, col: Int): Unit = {
+      for(j <- out.indices)
+        out(j)(col) = Math.min(out(j)(col), hashes(row)(col))
+    }
+
+    for(row <- matrix.indices) //0-4
+      for(col <- matrix(0).indices) //0-3
+        if(matrix(row)(col) == 1)
+          updateSignatureRow(row, col)
+
+    //row - hash - col loops
 
     out
   }
@@ -107,10 +128,9 @@ object JaccardSimilarity {
 
   def createRandomSetAsArray(nrElements: Int): Array[Int] = {
     val res = Array.tabulate(nrElements)(_ => 0)
-    (for (i <- 0 to nrElements - 1) {
-
+    for (i <- 0 until nrElements)
       if (randGen.nextFloat < 0.3) res(randGen.nextInt(nrElements - 1)) = 1
-    })
+
     res
   }
 

@@ -7,21 +7,21 @@ import algorithms._
 
 @RunWith(classOf[JUnitRunner])
 class JaccardSimilarityTest extends FunSuite {
-
-
   trait teststrings {
-
     val bag1 = List("this", "is", "a", "test", "this", "is", "a", "test", "hello", "world")
     val bag2 = List("this", "is", "a", "test", "this", "is", "a", "test", "cat", "dog")
     val funs: Array[Int => Int] = Array(((x: Int) => (x + 1) % 5), ((x: Int) => (3 * x + 1) % 5))
-    val matrix = Array(Array(1, 0, 0, 1), Array(0, 0, 1, 0), Array(0, 1, 0, 1), Array(1, 0, 1, 1),
-      Array(0, 0, 1, 0))
+    val matrix = Array(
+      Array(1, 0, 0, 1),
+      Array(0, 0, 1, 0),
+      Array(0, 1, 0, 1),
+      Array(1, 0, 1, 1),
+      Array(0, 0, 1, 0)
+    )
   }
 
   test("Jaccquard Similarity Set") {
-
     new teststrings {
-
       val res = JaccardSimilarity.calculateJaccardDistanceSet(bag1.toSet, bag2.toSet)
       assert(res === 0.5)
     }
@@ -55,16 +55,15 @@ class JaccardSimilarityTest extends FunSuite {
   }
 
   test("Minhashing Example Lecture") {
-
     new teststrings {
-
-      val res = JaccardSimilarity.minHash(matrix, funs)
-      assert(res === Array(Array(1, 3, 0, 1), Array(0, 2, 0, 0)))
+      assert(JaccardSimilarity.minHash(matrix, funs) === Array(
+        Array(1, 3, 0, 1),
+        Array(0, 2, 0, 0))
+      )
     }
-
   }
 
-  test("Minhashing Bigger Set") {
+  /*test("Minhashing Bigger Set") {
 
     val size = 10000
     val set1 = JaccardSimilarity.createRandomSetAsArray(size)
@@ -83,9 +82,8 @@ class JaccardSimilarityTest extends FunSuite {
     val sim = JaccardSimilarity.compareSignatures(res(0), res(1)).toDouble / funs.size
     println("MinHash-Jaccard-Distance is: " + sim)
   }
-
+*/
   test("Find next Prim Test") {
-
     assert(13 == JaccardSimilarity.findNextPrim(12))
     assert(13 == JaccardSimilarity.findNextPrim(13))
     assert(11 == JaccardSimilarity.findNextPrim(8))
