@@ -37,7 +37,9 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
 
   val BINS = 101
   val nthresholds = 100
-  val zeros: Vector[Int] = Vector.fill(BINS) {0}
+  val zeros: Vector[Int] = Vector.fill(BINS) {
+    0
+  }
   val thresholds = for (i <- 1 to nthresholds) yield i / nthresholds.toDouble
   var falseposDict: Map[Double, Long] = _
   var falsenegDict: Map[Double, Long] = _
@@ -59,43 +61,75 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
   this.googleWeightsBroadcast = amazonWeightsRDD.sparkContext.broadcast(googleWeightsRDD.collectAsMap().toMap)
 
   /*
-   * Aufbau eines inversen Index
-   * Die Funktion soll die Variablen amazonWeightsRDD und googleWeightsRDD so
-   * umwandeln, dass aus dem EingabeRDD vom Typ  RDD[(String, Map[String,Double])]
-   * alle Tupel der Form (Wort, ProduktID) extrahiert werden.
-   * Verwenden Sie dazu die Funktion invert im object und speichern Sie die
-   * Ergebnisse in amazonInvPairsRDD und googleInvPairsRDD. Cache die Werte.
+   IN: val amazonWeightsRDD: RDD[(String, Map[String, Double])]
+   OUT: var amazonInvPairsRDD: RDD[(String, String)] >> (Wort, ProduktID)
+
+   use invert() and cache the ans!
    */
-  def buildInverseIndex: Unit = {
-
-    ???
+  def buildInverseIndex(): Unit = {
+    amazonInvPairsRDD = amazonWeightsRDD.map(x => ScalableEntityResolution.invert(x))
+        .flatMap(z => z).cache()
+    googleInvPairsRDD = googleWeightsRDD.map(x => ScalableEntityResolution.invert(x))
+      .flatMap(z => z).cache()
   }
 
-  def determineCommonTokens: Unit = {
-
-    /*
-     * Bestimmen Sie alle Produktkombinationen, die gemeinsame Tokens besitzen
-     * Speichern Sie das Ergebnis in die Variable commonTokens und verwenden Sie
-     * dazu die Funktion swap aus dem object.
-     */
-    ???
+  /*
+   * Bestimmen Sie alle Produktkombinationen, die gemeinsame Tokens besitzen
+   * Speichern Sie das Ergebnis in die Variable commonTokens und verwenden Sie
+   * dazu die Funktion swap aus dem object.
+   *
+   * IN: var amazonInvPairsRDD: RDD[(String, String)] >> (Wort, ProduktID)
+   * OUT: var commonTokens: RDD[((String, String), Iterable[String])] = _
+   */
+  def determineCommonTokens(): Unit = {
+    determineCommonTokensD()
+//    val acc = sc.accumulator(List(): List[String])(ScalableEntityResolution)
+//
+//    amazonInvPairsRDD.cartesian(googleInvPairsRDD)
+//      .filter(x => x._1._1 == x._2._1)
+//      .map(inter => (inter._1._2, inter._2._2, inter._2._1))
+//      .aggregate(Map[(String, String), List[String]])((acc, e) =>
+//        acc + ((e._1, e._2) -> (acc.getOrElse((e._1, e._2), List()) :+ e._3)))((acc1, acc2) => acc1 ++ acc2)
+//
+//      .foldLeft(Map[(String, String), List[String]]())((acc, e) =>
+//        acc + ((e._1, e._2) -> (acc.getOrElse((e._1, e._2), List()) :+ e._3)))
   }
 
-  def calculateSimilaritiesFullDataset: Unit = {
+  def determineCommonTokensD(): Unit = {
+    val cart = amazonTokens.cartesian(googleTokens)
 
-    /*
-     * Berechnung der Similarity Werte des gesmamten Datasets 
-     * Verwenden Sie dafür das commonTokensRDD (es muss also mind. ein
-     * gleiches Wort vorkommen, damit der Wert berechnent dafür.
-     * Benutzen Sie außerdem die Broadcast-Variablen für die L2-Norms sowie
-     * die TF-IDF-Werte.
-     * 
-     * Für die Berechnung der Cosinus-Similarity verwenden Sie die Funktion
-     * fastCosinusSimilarity im object
-     * Speichern Sie das Ergebnis in der Variable simsFillValuesRDD und cachen sie diese.
-     */
+    //map every element to ((docID1, docID2), intersection of token lists)
+    val intersected = cart.map(x =>
+      ((x._1._1, x._2._1), x._1._2.intersect(x._2._2).toIterable))
 
-    ???
+    //filter the empty intersections
+    val filtered = intersected.filter(x => x._2.nonEmpty)
+    commonTokens = filtered
+  }
+
+  /*
+   * Berechnung der Similarity Werte des gesmamten Datasets
+   * Verwenden Sie dafür das commonTokensRDD (es muss also mind. ein
+   * gleiches Wort vorkommen, damit der Wert berechnent dafür.
+   * Benutzen Sie außerdem die Broadcast-Variablen für die L2-Norms sowie
+   * die TF-IDF-Werte.
+   *
+   * Für die Berechnung der Cosinus-Similarity verwenden Sie die Funktion
+   * fastCosinusSimilarity im object
+   * Speichern Sie das Ergebnis in der Variable simsFillValuesRDD und cachen sie diese.
+   */
+  def calculateSimilaritiesFullDataset(): Unit = {
+    val calcSim = ScalableEntityResolution.fastCosinusSimilarity(_: ((String, String), Iterable[String]), _: Broadcast[Map[String, Map[String, Double]]], _: Broadcast[Map[String, Map[String, Double]]], _: Broadcast[Map[String, Double]], _: Broadcast[Map[String, Double]])
+    val commonTokens_ = commonTokens
+    val amazonWeightsBroadcast_ = amazonWeightsBroadcast
+    val googleWeightsBroadcast_ = googleWeightsBroadcast
+    val amazonNormsBroadcast_ = amazonNormsBroadcast
+    val googleNormsBroadcast_ = googleNormsBroadcast
+
+    val temp = commonTokens_.map(x =>
+      calcSim(x, amazonWeightsBroadcast_, googleWeightsBroadcast_, amazonNormsBroadcast_, googleNormsBroadcast_)).cache()
+
+    similaritiesFullRDD = temp
   }
 
   /*
@@ -117,8 +151,7 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
    * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    */
 
-  def analyseDataset: Unit = {
-
+  def analyseDataset(): Unit = {
 
     val simsFullRDD = similaritiesFullRDD.map(x => (x._1._1 + " " + x._1._2, x._2)).cache
     simsFullRDD.take(10).foreach(println)
@@ -126,7 +159,6 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
     val tds = goldStandard.leftOuterJoin(simsFullRDD)
     tds.filter(x => x._2._2 == None).take(100).foreach(println)
     trueDupSimsRDD = goldStandard.leftOuterJoin(simsFullRDD).map(ScalableEntityResolution.gs_value(_)).cache()
-
 
     def calculateFpCounts(fpCounts: Accumulator[Vector[Int]]): Accumulator[Vector[Int]] = {
 
@@ -184,7 +216,6 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
     System.in.read()
   }
 
-
   /*
    * Berechnung von False-Positives, FalseNegatives und
    * True-Positives
@@ -210,8 +241,6 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
    * Recall = true-positives / (true-positives + false-negatives)
    * F-measure = 2 x Recall x Precision / (Recall + Precision) 
    */
-
-
   def precision(threshold: Double): Double = {
     val tp = trueposDict(threshold)
     tp.toDouble / (tp + falseposDict(threshold))
@@ -230,54 +259,51 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
 }
 
 object ScalableEntityResolution {
-
   /*
    * Berechnung von TF-IDF Wert für eine Liste von Wörtern
    * Ergebnis ist eine Map die auf jedes Wort den zugehörigen TF-IDF-Wert mapped
    */
-  def calculateTF_IDFBroadcast(terms: List[String],
-  idfDictBroadcast: Broadcast[Map[String, Double]]):
-  Map[String, Double] = {
+  def calculateTF_IDFBroadcast(terms: List[String], idfDictBroadcast: Broadcast[Map[String, Double]]): Map[String, Double] = {
+    def getTermFrequencies(tokens: List[String]): Map[String, Double] =
+      tokens.groupBy(x => x)
+        .map(x => (x._1, x._2.size / tokens.size.toDouble))
 
+    getTermFrequencies(terms).map(tf => (tf._1, tf._2 * idfDictBroadcast.value(tf._1)))
   }
 
-  def invert(termlist: (String, Map[String, Double])): List[(String, String)] = {
-
-    //in: List of (ID, tokenList with TFIDF-value)
-    //out: List[(token,ID)]
-
+  /*
+  in: List of (ID, tokenList with TFIDF-value)
+  out: List[(token,ID)]
+   */
+  def invert(termlist: (String, Map[String, Double])): List[(String, String)] =
     termlist._2.keys.map(x => (x, termlist._1)).toList
-  }
 
-  def swap(el: (String, (String, String))): ((String, String), String) = {
-
-    /*
-     * Wandelt das Format eines Elements für die Anwendung der
-     * RDD-Operationen.
-     */
-
+  /*
+   * Wandelt das Format eines Elements für die Anwendung der
+   * RDD-Operationen.
+   */
+  def swap(el: (String, (String, String))): ((String, String), String) =
     (el._2, el._1)
-  }
 
+  /* Compute Cosine Similarity using Broadcast variables
+  Args: record: ((ID, URL), token)
+  Returns: pair: ((ID, URL), cosine similarity value)
+
+  Verwenden Sie die Broadcast-Variablen und verwenden Sie für ein schnelles dot-Product nur die TF-IDF-Werte, die auch in der gemeinsamen Token-Liste sind
+  */
   def fastCosinusSimilarity(record: ((String, String), Iterable[String]),
                             amazonWeightsBroad: Broadcast[Map[String, Map[String, Double]]], googleWeightsBroad: Broadcast[Map[String, Map[String, Double]]],
                             amazonNormsBroad: Broadcast[Map[String, Double]], googleNormsBroad: Broadcast[Map[String, Double]]): ((String, String), Double) = {
+    val dot = EntityResolution.calculateDotProduct(_: Map[String, Double], _: Map[String, Double])
+    val aID = record._1._1
+    val gID = record._1._2
+    val dotProduct = dot(amazonWeightsBroad.value(aID), googleWeightsBroad.value(gID))
+    val normMult = amazonNormsBroad.value(aID) * googleNormsBroad.value(gID)
 
-    /* Compute Cosine Similarity using Broadcast variables
-    Args:
-        record: ((ID, URL), token)
-    Returns:
-        pair: ((ID, URL), cosine similarity value)
-        
-    Verwenden Sie die Broadcast-Variablen und verwenden Sie für ein schnelles dot-Product nur die TF-IDF-Werte,
-    die auch in der gemeinsamen Token-Liste sind 
-    */
-
-    ???
+    ((aID, gID), dotProduct / normMult)
   }
 
   def gs_value(record: (_, (_, Option[Double]))): Double = {
-
     record._2._2 match {
       case Some(d: Double) => d
       case None => 0.0

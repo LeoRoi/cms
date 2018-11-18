@@ -61,7 +61,7 @@ class ScalableEntityResolutionTest extends FunSuite with BeforeAndAfterAll {
 
   test("Test Inverse Index Creation") {
 
-    entityResolutionScalable.buildInverseIndex
+    entityResolutionScalable.buildInverseIndex()
     assert(entityResolutionScalable.amazonInvPairsRDD.count === 111387)
     assert(entityResolutionScalable.googleInvPairsRDD.count === 77678)
   }
@@ -74,14 +74,13 @@ class ScalableEntityResolutionTest extends FunSuite with BeforeAndAfterAll {
 
   test("Test determine common tokens") {
 
-    entityResolutionScalable.determineCommonTokens
+    entityResolutionScalable.determineCommonTokens()
     assert(entityResolutionScalable.commonTokens.count === 2441100)
     // alle waeren 4397038 
   }
 
   test("Test Similarity Calculation on full dataset") {
-
-    entityResolutionScalable.calculateSimilaritiesFullDataset
+    entityResolutionScalable.calculateSimilaritiesFullDataset()
     val similarityTest = entityResolutionScalable.similaritiesFullRDD.filter(x => ((x._1._1.equals("b00005lzly")) &&
       (x._1._2.equals("http://www.google.com/base/feeds/snippets/13823221823254120257")))).collect()
     assert(similarityTest.size === 1)
@@ -91,7 +90,7 @@ class ScalableEntityResolutionTest extends FunSuite with BeforeAndAfterAll {
 
   test("Analyse Dataset") {
 
-    entityResolutionScalable.analyseDataset
+    entityResolutionScalable.analyseDataset()
     assert(entityResolutionScalable.trueDupSimsRDD.count === 1300)
 
     val similarityTest = entityResolutionScalable.similaritiesFullRDD.filter(x => ((x._1._1.equals("b00005lzly")) &&
