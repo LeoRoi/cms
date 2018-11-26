@@ -73,7 +73,6 @@ class ScalableEntityResolutionTest extends FunSuite with BeforeAndAfterAll {
   }
 
   test("Test determine common tokens") {
-
     entityResolutionScalable.determineCommonTokens()
     assert(entityResolutionScalable.commonTokens.count === 2441100)
     // alle waeren 4397038 

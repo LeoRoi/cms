@@ -53,15 +53,20 @@ object JaccardSimilarity {
    *    b is a random integer
    *    c is the parameter nrHashFuns, that is passed in the signature of the method
    */
-
-  def createHashFuntions(size: Integer, nrHashFuns: Int): Array[(Int => Int)] = {
+  def createHashFunctions(size: Integer, nrHashFuns: Int): Array[Int => Int] = {
     val out = new Array[Int => Int](size)
+    val verbose = false
 
-    for(i <- 0 until size) {
-      val f: Int => Int = x => (randGen.nextInt() * x + randGen.nextInt()) % nrHashFuns
+    for(i <- out.indices) {
+      val m = randGen.nextInt()
+      val b = randGen.nextInt()
+      val c = nrHashFuns
+
+      val f: Int => Int = x => (m * x + b) % c
       out(i) = f
+      if(verbose) println("(" + m + "*x + " + b + ") % " + c)
     }
-
+    if(verbose) println("out.size = " + out.length)
     out
   }
 
@@ -77,40 +82,55 @@ object JaccardSimilarity {
    * columns: Each column corresponds to one document
    * rows: Each row corresponds to one hash function
    */
+  def minHash[T](matrix: Array[Array[T]], functions: Array[Int => Int]): Array[Array[Int]] = {
+    val out = new Array[Array[Int]](functions.length) // 2 x ? (4)
+    val hashes = Array.ofDim[Int](matrix.length, functions.length) // 5 x 2
+    val verbose = true
 
-  def minHash[T](matrix: Array[Array[T]], hFuns: Array[Int => Int]): Array[Array[Int]] = {
-    val out = new Array[Array[Int]](hFuns.length) // 2 x ? (4)
-    val hashes = Array.ofDim[Int](matrix.length, hFuns.length) // 5 x 2
-
-    // calculate revolvers for each row
-    for (i <- matrix.indices) {
-      println()
-      for (j <- hFuns.indices) {
-        hashes(i)(j) = hFuns(j)(i)
-        println(hFuns(j)(i))
+    def calculateHashes(verbose: Boolean): Unit = {
+      // row
+      for (i <- matrix.indices) {
+        // cell
+        for (j <- functions.indices) {
+          hashes(i)(j) = functions(j)(i)
+          if(verbose) println(functions(j)(i))
+        }
       }
     }
 
-    // init signature matrix >> 2 x 4
-    for(i <- out.indices) {
-      out(i) = new Array[Int](matrix(i).length)
-      for(j <- out(i).indices)
-        out(i)(j) = Integer.MAX_VALUE
+    def initSignatureMatrix(verbose: Boolean): Unit = {
+      if(verbose) {
+        println("initSignatureMatrix: out.size (row amount) = " + out.length)
+      }
+
+      // rows = number of hash functions
+      for(i <- out.indices) {
+        if(verbose) println("initSignatureMatrix: i = " + i)
+        // keep number of cells like in origin
+        out(i) = new Array[Int](matrix(i).length)
+        // init each cell with max_int to imitate the infinity
+        for(j <- out(i).indices)
+          out(i)(j) = Integer.MAX_VALUE
+      }
+      if(verbose) println(out)
     }
 
-    println(out)
+    calculateHashes(false)
+    initSignatureMatrix(verbose)
 
-    def updateSignatureRow(row: Int, col: Int): Unit = {
-      for(j <- out.indices)
-        out(j)(col) = Math.min(out(j)(col), hashes(row)(col))
+    // iterate over rows
+    for(row <- matrix.indices) { //0-4
+      // all hashes for this row
+      for (hash <- hashes(row).indices) { //0-1
+        // inspect all cells
+        for (col <- matrix(0).indices) { //0-3
+          val outValue = out(hash)(col)
+          val hashValue = hashes(row)(hash)
+          if (matrix(row)(col) == 1 && outValue > hashValue)
+          out(hash)(col) = hashValue
+        }
+      }
     }
-
-    for(row <- matrix.indices) //0-4
-      for(col <- matrix(0).indices) //0-3
-        if(matrix(row)(col) == 1)
-          updateSignatureRow(row, col)
-
-    //row - hash - col loops
 
     out
   }
@@ -134,20 +154,15 @@ object JaccardSimilarity {
     res
   }
 
-  def transformArrayIntoSet(data: Array[Int]): Set[Int] = {
-
+  def transformArrayIntoSet(data: Array[Int]): Set[Int] =
     (for (i <- 0 to data.size - 1 if (data(i) == 1)) yield i).toSet
 
-  }
-
   def findNextPrim(x: Int): Int = {
-
     def isPrim(X: Int, i: Int, Max: Int): Boolean = {
       if (i >= Max) true
       else if (X % i == 0) false
       else isPrim(X, i + 1, Max)
     }
-
     if (isPrim(x, 2, math.sqrt(x).toInt + 1)) x
     else findNextPrim(x + 1)
   }

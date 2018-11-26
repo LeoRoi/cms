@@ -46,8 +46,6 @@ class JaccardSimilarityTest extends FunSuite {
   }
 
   test("Compare Signatures") {
-
-
     val sig1 = Array(2, 1, 1, 0, 1, 1, 0, 6, 1, 4, 0, 1)
     val sig2 = Array(3, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1)
     val res = JaccardSimilarity.compareSignatures(sig1, sig2)
@@ -63,8 +61,7 @@ class JaccardSimilarityTest extends FunSuite {
     }
   }
 
-  /*test("Minhashing Bigger Set") {
-
+  test("Minhashing Bigger Set") {
     val size = 10000
     val set1 = JaccardSimilarity.createRandomSetAsArray(size)
     val set2 = JaccardSimilarity.createRandomSetAsArray(size)
@@ -76,13 +73,15 @@ class JaccardSimilarityTest extends FunSuite {
     assert(equalSets === 1.0)
     val jS = JaccardSimilarity.calculateJaccardDistanceSet(set1A, set2A)
     println("Jaccard-Distance is: " + jS)
-    val funs = JaccardSimilarity.createHashFuntions(
-      JaccardSimilarity.findNextPrim(size), 400)
+
+    val nextPrim = JaccardSimilarity.findNextPrim(size)
+    println("next prim after " + size + " is " + nextPrim)
+    val funs = JaccardSimilarity.createHashFunctions(nextPrim, 400)
     val res = JaccardSimilarity.minHash(data, funs).transpose
-    val sim = JaccardSimilarity.compareSignatures(res(0), res(1)).toDouble / funs.size
-    println("MinHash-Jaccard-Distance is: " + sim)
+//    val sim = JaccardSimilarity.compareSignatures(res(0), res(1)).toDouble / funs.size
+//    println("MinHash-Jaccard-Distance is: " + sim)
   }
-*/
+
   test("Find next Prim Test") {
     assert(13 == JaccardSimilarity.findNextPrim(12))
     assert(13 == JaccardSimilarity.findNextPrim(13))

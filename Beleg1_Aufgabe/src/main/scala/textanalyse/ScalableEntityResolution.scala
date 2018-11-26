@@ -130,6 +130,7 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
       calcSim(x, amazonWeightsBroadcast_, googleWeightsBroadcast_, amazonNormsBroadcast_, googleNormsBroadcast_)).cache()
 
     similaritiesFullRDD = temp
+    simsFullValuesRDD = similaritiesFullRDD.map(_._2).cache()
   }
 
   /*
@@ -152,7 +153,6 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
    */
 
   def analyseDataset(): Unit = {
-
     val simsFullRDD = similaritiesFullRDD.map(x => (x._1._1 + " " + x._1._2, x._2)).cache
     simsFullRDD.take(10).foreach(println)
     goldStandard.take(10).foreach(println)
@@ -161,7 +161,6 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
     trueDupSimsRDD = goldStandard.leftOuterJoin(simsFullRDD).map(ScalableEntityResolution.gs_value(_)).cache()
 
     def calculateFpCounts(fpCounts: Accumulator[Vector[Int]]): Accumulator[Vector[Int]] = {
-
       val BINS = this.BINS
       val nthresholds = this.nthresholds
       val fpCounts_ : Accumulator[Vector[Int]] = fpCounts
