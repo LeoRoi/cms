@@ -324,7 +324,6 @@ object ScalableEntityResolution {
     fpCounts += set_bit(b, 1, BINS)
   }
 
-
   def sub_element(score: Double, BINS: Int, nthresholds: Int, fpCounts: Accumulator[Vector[Int]]): Unit = {
     val b = bin(score, nthresholds)
     fpCounts += set_bit(b, -1, BINS)

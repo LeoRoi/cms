@@ -76,7 +76,7 @@ class JaccardSimilarityTest extends FunSuite {
 
     val nextPrim = JaccardSimilarity.findNextPrim(size)
     println("next prim after " + size + " is " + nextPrim)
-    val funs = JaccardSimilarity.createHashFunctions(nextPrim, 400)
+    val funs = JaccardSimilarity.createHashFunctionsG(nextPrim, 400)
     val res = JaccardSimilarity.minHash(data, funs).transpose
 //    val sim = JaccardSimilarity.compareSignatures(res(0), res(1)).toDouble / funs.size
 //    println("MinHash-Jaccard-Distance is: " + sim)

@@ -24,25 +24,6 @@ object JaccardSimilarity {
     intersection.size / union.size.toDouble
   }
 
-  def calculateJaccardDistanceBag2[T](bag1: Iterable[T], bag2: Iterable[T]): Double = {
-    def getIntersection(listOne: List[T], listTwo: List[T], acc: List[T]): List[T] = listOne match {
-      case h :: t => {
-        if (listTwo.contains(h)) {
-          val listTwoWithoutHead = listTwo.diff(List(h))
-          val listTwoIntersect = listTwo.diff(listTwoWithoutHead)
-          getIntersection(t, listTwoWithoutHead, (acc :+ h) ::: listTwoIntersect)
-        }
-        else getIntersection(t, listTwo, acc)
-      }
-      case Nil => acc
-    }
-
-    val intersection = getIntersection(bag1.toList, bag2.toList, List())
-    val union = bag1 ++ bag2
-
-    intersection.size / union.size.toDouble
-  }
-
   /*
    * Calculate an Array of Hash Functions
    * size = array size
@@ -70,6 +51,21 @@ object JaccardSimilarity {
     out
   }
 
+  def createHashFunctionsG(size: Integer, nrHashFuns: Int): Array[Int => Int] = {
+    val verbose = false
+
+    val out = for(i <- 0 to nrHashFuns) yield {
+      val m = randGen.nextInt()
+      val b = randGen.nextInt()
+
+      if(verbose) println("(" + m + "*x + " + b + ") % " + size)
+      ((x: Int) => ((m*x + b) % size)): (Int => Int)
+    }
+
+    if(verbose) println("out.size = " + out.length)
+    out.toArray
+  }
+
   /*
    * Implement the MinHash algorithm presented in the lecture
    *
@@ -82,7 +78,7 @@ object JaccardSimilarity {
    * columns: Each column corresponds to one document
    * rows: Each row corresponds to one hash function
    */
-  def minHash[T](matrix: Array[Array[T]], functions: Array[Int => Int]): Array[Array[Int]] = {
+  def minHash2[T](matrix: Array[Array[T]], functions: Array[Int => Int]): Array[Array[Int]] = {
     val out = new Array[Array[Int]](functions.length) // 2 x ? (4)
     val hashes = Array.ofDim[Int](matrix.length, functions.length) // 5 x 2
     val verbose = true
@@ -135,6 +131,68 @@ object JaccardSimilarity {
     out
   }
 
+  def minHash[T](matrix: Array[Array[Int]], hFuns: Array[Int => Int]): Array[Array[Int]] = {
+
+    val numOfRows = hFuns.length
+    val numOfColumns = matrix(0).length
+
+    val signatureMatrix = Array.ofDim[Int](numOfRows, numOfColumns) // initialize result matrix with 0
+    for ((row, i) <- signatureMatrix.zipWithIndex) {
+      for ((column, j) <- row.zipWithIndex) {
+        signatureMatrix(i)(j) = -1 // set all elements to -1
+      }
+    }
+
+    for ((row, i) <- matrix.zipWithIndex) { // loop throw row -> hash -> columns. Applying hash to s1-s4 columns then go to next hash then agaon s1-s4 then do with the second row
+      for ((h, k) <- hFuns.zipWithIndex) {
+        for ((column, j) <- row.zipWithIndex) {
+          val hash = h(i)
+
+          //          val temp0 = matrix(i)(j)
+          if (matrix(i)(j) == 1) {
+            if (hash <= matrix(i)(j) || signatureMatrix(k)(j) == -1) {
+              signatureMatrix(k)(j) = hash
+            }
+          }
+          //          val temp1 = 0
+        }
+      }
+    }
+
+    signatureMatrix
+  }
+
+  def minHashG[T](matrix: Array[Array[Int]], hFuns: Array[Int => Int]): Array[Array[Int]] = {
+
+    val numOfRows = hFuns.length
+    val numOfColumns = matrix(0).length
+
+    val signatureMatrix = Array.ofDim[Int](numOfRows, numOfColumns) // initialize result matrix with 0
+    for ((row, i) <- signatureMatrix.zipWithIndex) {
+      for ((column, j) <- row.zipWithIndex) {
+        signatureMatrix(i)(j) = -1 // set all elements to -1
+      }
+    }
+
+    for ((row, i) <- matrix.zipWithIndex) { // loop throw row -> hash -> columns. Applying hash to s1-s4 columns then go to next hash then agaon s1-s4 then do with the second row
+      for ((h, k) <- hFuns.zipWithIndex) {
+        for ((column, j) <- row.zipWithIndex) {
+          val hash = h(i)
+
+          //          val temp0 = matrix(i)(j)
+          if (matrix(i)(j) == 1) {
+            if (hash <= matrix(i)(j) || signatureMatrix(k)(j) == -1) {
+              signatureMatrix(k)(j) = hash
+            }
+          }
+          //          val temp1 = 0
+        }
+      }
+    }
+
+    signatureMatrix
+  }
+
   /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    *
    * Helper functions that are used in the tests
@@ -176,4 +234,23 @@ object JaccardSimilarity {
     res
   }
 
+  // interesting concept, but not for this context
+  def calculateJaccardDistanceBag2[T](bag1: Iterable[T], bag2: Iterable[T]): Double = {
+    def getIntersection(listOne: List[T], listTwo: List[T], acc: List[T]): List[T] = listOne match {
+      case h :: t => {
+        if (listTwo.contains(h)) {
+          val listTwoWithoutHead = listTwo.diff(List(h))
+          val listTwoIntersect = listTwo.diff(listTwoWithoutHead)
+          getIntersection(t, listTwoWithoutHead, (acc :+ h) ::: listTwoIntersect)
+        }
+        else getIntersection(t, listTwo, acc)
+      }
+      case Nil => acc
+    }
+
+    val intersection = getIntersection(bag1.toList, bag2.toList, List())
+    val union = bag1 ++ bag2
+
+    intersection.size / union.size.toDouble
+  }
 }

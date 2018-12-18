@@ -59,9 +59,9 @@ object Aufgaben {
       case Nil => acc
     }
 
-    if(l.size == 0)
+    if (l.size == 0)
       Empty
-    else if(l.size == 1)
+    else if (l.size == 1)
       NonEmpty(l.head, Empty, Empty)
     else
       unrollList(l.tail, NonEmpty(l.head, Empty, Empty))
@@ -72,8 +72,8 @@ object Aufgaben {
     def unrollTree(tree: IntSet, acc: List[Int], lastElement: Int): List[Int] = tree match {
       case node: NonEmpty => {
         val head = node.elem
-        if(acc.isEmpty) unrollTree(delete(head, tree), List(head), head)
-        else if(head >= lastElement) unrollTree(delete(head, tree), acc :+ head, head)
+        if (acc.isEmpty) unrollTree(delete(head, tree), List(head), head)
+        else if (head >= lastElement) unrollTree(delete(head, tree), acc :+ head, head)
         else unrollTree(delete(head, tree), List(head) ::: acc, head)
       }
       case Empty => acc
@@ -84,8 +84,7 @@ object Aufgaben {
 
   // Funktion ueberfuerhrt einen Binaeren Suchbaum in eine Liste, in dem der
   // Baum Ebene fuer Ebene durchlaufen wird
-  def breadthFirstSearch(tree: IntSet): List[Int] = {
-
+  def breadthFirstSearch2(tree: IntSet): List[Int] = {
     def traverse(acc: List[Int], tree: IntSet): List[Int] = tree match {
       case node: NonEmpty => {
         val left = traverse(acc, node.left)
@@ -94,7 +93,55 @@ object Aufgaben {
       }
       case Empty => acc
     }
+
     traverse(List(), tree)
+  }
+
+  def breadthFirstSearch3(tree: IntSet): List[Int] = {
+    def traverse(acc: List[(Int, Int)], tree: IntSet, level: Int): List[(Int, Int)] = tree match {
+      case node: NonEmpty => {
+        traverse(acc :+ (level, node.elem), node.left, level+1) :::
+        traverse(acc :+ (level, node.elem), node.right, level+1)
+      }
+      case Empty => acc
+    }
+
+//    traverse(List(), tree).sortWith((x,y) => x < y).map(x => x._2)
+    val out = traverse(List(), tree, 0)
+    println(out)
+    out.sortBy(_._1).map(_._2)
+  }
+
+  def breadthFirstSearch(tree: IntSet): List[Int] = {
+    def bfs(nodes: List[IntSet]): List[Int] = nodes match {
+      case List() => List()
+      case Empty :: tail => bfs(tail)
+      case NonEmpty(head, Empty, Empty) :: tail => head :: bfs(tail)
+      case NonEmpty(head, left: IntSet, right: IntSet) :: tail =>
+        head :: bfs(tail ++ List(left, right))
+      case _ => throw new Error("omg")
+    }
+    bfs(List(tree))
+  }
+
+  def printLevelOrder(tree: IntSet): List[Int] = {
+    var out = List[Int]()
+
+    def printGivenLevel (tree: IntSet, level: Int): Unit = tree match {
+      case node: NonEmpty => {
+        if (level == 1)
+//          print(node.elem + " ")
+          out :+ node.elem
+        else if (level > 1) {
+          printGivenLevel(node.left, level - 1)
+          printGivenLevel(node.right, level - 1)
+        }
+      }
+      case Empty =>
+    }
+    val h = height(tree)
+    for (i <- 1 to h+1) printGivenLevel(tree, i)
+    out
   }
 
   // https://www.geeksforgeeks.org/level-order-tree-traversal/
@@ -110,5 +157,11 @@ object Aufgaben {
       case Empty => acc
     }
     traverse(-1, tree)
+  }
+
+  def heightG(tree: IntSet): Int = tree match {
+    case Empty => -1
+    case NonEmpty(_, left, right) =>
+      (1+heightG(left)).max(1+heightG(right))
   }
 }

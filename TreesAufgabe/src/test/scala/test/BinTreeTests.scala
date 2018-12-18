@@ -37,9 +37,7 @@ class Beleg1Tests extends FunSuite {
   }
 
   test("BreadtFirstSearchTest") {
-
     new TestTrees {
-
       assert(List(3, 2, 6, 1, 5, 9, 4, 11) === Aufgaben.breadthFirstSearch(t3))
     }
   }
@@ -50,6 +48,15 @@ class Beleg1Tests extends FunSuite {
       assert(1 === Aufgaben.height(NonEmpty(9, NonEmpty(4, Empty, Empty), Empty)))
       assert(2 === Aufgaben.height(t0))
       assert(3 === Aufgaben.height(t4))
+    }
+  }
+
+  test("HeightG") {
+    new TestTrees {
+      assert(0 === Aufgaben.heightG(NonEmpty(9, Empty, Empty)))
+      assert(1 === Aufgaben.heightG(NonEmpty(9, NonEmpty(4, Empty, Empty), Empty)))
+      assert(2 === Aufgaben.heightG(t0))
+      assert(3 === Aufgaben.heightG(t4))
     }
   }
 
@@ -86,5 +93,10 @@ class Beleg1Tests extends FunSuite {
     }
   }
 
-
+//  test("BreadthFirstSearchTest2") {
+//    new TestTrees {
+//      val tree = NonEmpty(1, NonEmpty(2, NonEmpty(4, Empty, Empty), NonEmpty(5, Empty, Empty)), NonEmpty(3, Empty, Empty))
+//      assert(List(1,2,3,4,5) === Aufgaben.printLevelOrder(tree))
+//    }
+//  }
 }
