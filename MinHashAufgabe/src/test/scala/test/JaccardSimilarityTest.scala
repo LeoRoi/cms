@@ -52,11 +52,27 @@ class JaccardSimilarityTest extends FunSuite {
     assert(res == 4)
   }
 
-  test("Minhashing Example Lecture") {
+  test("Find next Prim Test") {
+    assert(13 == JaccardSimilarity.findNextPrim(12))
+    assert(13 == JaccardSimilarity.findNextPrim(13))
+    assert(11 == JaccardSimilarity.findNextPrim(8))
+    assert(19 == JaccardSimilarity.findNextPrim(JaccardSimilarity.findNextPrim(14) + 1))
+  }
+
+  test("Minhashing Example Lecture v3") {
     new teststrings {
       assert(JaccardSimilarity.minHash(matrix, funs) === Array(
-        Array(1, 3, 0, 1),
-        Array(0, 2, 0, 0))
+          Array(1, 3, 0, 1),
+          Array(0, 2, 0, 0))
+      )
+    }
+  }
+
+  test("Minhashing Example Lecture G") {
+    new teststrings {
+      assert(JaccardSimilarity.minHashG(matrix, funs) === Array(
+          Array(1, 3, 0, 1),
+          Array(0, 2, 0, 0))
       )
     }
   }
@@ -76,17 +92,10 @@ class JaccardSimilarityTest extends FunSuite {
 
     val nextPrim = JaccardSimilarity.findNextPrim(size)
     println("next prim after " + size + " is " + nextPrim)
-    val funs = JaccardSimilarity.createHashFunctionsG(nextPrim, 400)
+    val funs = JaccardSimilarity.createHashFunctions(nextPrim, 400)
     val res = JaccardSimilarity.minHash(data, funs).transpose
-//    val sim = JaccardSimilarity.compareSignatures(res(0), res(1)).toDouble / funs.size
-//    println("MinHash-Jaccard-Distance is: " + sim)
-  }
-
-  test("Find next Prim Test") {
-    assert(13 == JaccardSimilarity.findNextPrim(12))
-    assert(13 == JaccardSimilarity.findNextPrim(13))
-    assert(11 == JaccardSimilarity.findNextPrim(8))
-    assert(19 == JaccardSimilarity.findNextPrim(JaccardSimilarity.findNextPrim(14) + 1))
+    //    val sim = JaccardSimilarity.compareSignatures(res(0), res(1)).toDouble / funs.size
+    //    println("MinHash-Jaccard-Distance is: " + sim)
   }
 }
 

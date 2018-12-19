@@ -17,9 +17,9 @@ object JaccardSimilarity {
   * 0 -> not similar, 1 -> same text
   */
   def calculateJaccardDistanceBag[T](bag1: Iterable[T], bag2: Iterable[T]): Double = {
-    val bagDelta = bag2.toList.diff(bag1.toList)
-    val intersection = bag1.toList.intersect(bag2.toList)
-    val union = bag1.toList.union(bagDelta)
+    val bag2unique = bag2.toList.diff(bag1.toList) //List(cat, dog)
+    val intersection = bag1.toList.intersect(bag2.toList) //L(this, is, a, test, this, is, a, test)
+    val union = bag1.toList.union(bag2unique) //all elements
 
     intersection.size / union.size.toDouble
   }
@@ -38,36 +38,23 @@ object JaccardSimilarity {
     val out = new Array[Int => Int](size)
     val verbose = false
 
-    for(i <- out.indices) {
+    for (i <- out.indices) {
       val m = randGen.nextInt()
       val b = randGen.nextInt()
       val c = nrHashFuns
 
-      val f: Int => Int = x => (m * x + b) % c
-      out(i) = f
-      if(verbose) println("(" + m + "*x + " + b + ") % " + c)
+//      val f: Int => Int = x => (m * x + b) % c
+//      out(i) = f
+      out(i) = ((x: Int) => ((m*x + b) % c)): (Int => Int)
+      if (verbose) println("(" + m + "*x + " + b + ") % " + c)
     }
-    if(verbose) println("out.size = " + out.length)
+    if (verbose) println("out.size = " + out.length)
     out
-  }
-
-  def createHashFunctionsG(size: Integer, nrHashFuns: Int): Array[Int => Int] = {
-    val verbose = false
-
-    val out = for(i <- 0 to nrHashFuns) yield {
-      val m = randGen.nextInt()
-      val b = randGen.nextInt()
-
-      if(verbose) println("(" + m + "*x + " + b + ") % " + size)
-      ((x: Int) => ((m*x + b) % size)): (Int => Int)
-    }
-
-    if(verbose) println("out.size = " + out.length)
-    out.toArray
   }
 
   /*
    * Implement the MinHash algorithm presented in the lecture
+   * mining massive data sets p83
    *
    * Input:
    * matrix: Document vectors (each column should corresponds to one document)
@@ -78,128 +65,28 @@ object JaccardSimilarity {
    * columns: Each column corresponds to one document
    * rows: Each row corresponds to one hash function
    */
-  def minHash2[T](matrix: Array[Array[T]], functions: Array[Int => Int]): Array[Array[Int]] = {
-    val out = new Array[Array[Int]](functions.length) // 2 x ? (4)
-    val hashes = Array.ofDim[Int](matrix.length, functions.length) // 5 x 2
-    val verbose = true
-
-    def calculateHashes(verbose: Boolean): Unit = {
-      // row
-      for (i <- matrix.indices) {
-        // cell
-        for (j <- functions.indices) {
-          hashes(i)(j) = functions(j)(i)
-          if(verbose) println(functions(j)(i))
-        }
-      }
-    }
-
-    def initSignatureMatrix(verbose: Boolean): Unit = {
-      if(verbose) {
-        println("initSignatureMatrix: out.size (row amount) = " + out.length)
-      }
-
-      // rows = number of hash functions
-      for(i <- out.indices) {
-        if(verbose) println("initSignatureMatrix: i = " + i)
-        // keep number of cells like in origin
-        out(i) = new Array[Int](matrix(i).length)
-        // init each cell with max_int to imitate the infinity
-        for(j <- out(i).indices)
-          out(i)(j) = Integer.MAX_VALUE
-      }
-      if(verbose) println(out)
-    }
-
-    calculateHashes(false)
-    initSignatureMatrix(verbose)
-
-    // iterate over rows
-    for(row <- matrix.indices) { //0-4
-      // all hashes for this row
-      for (hash <- hashes(row).indices) { //0-1
-        // inspect all cells
-        for (col <- matrix(0).indices) { //0-3
-          val outValue = out(hash)(col)
-          val hashValue = hashes(row)(hash)
-          if (matrix(row)(col) == 1 && outValue > hashValue)
-          out(hash)(col) = hashValue
-        }
-      }
-    }
-
-    out
-  }
-
   def minHash[T](matrix: Array[Array[Int]], hFuns: Array[Int => Int]): Array[Array[Int]] = {
+    val outRows = hFuns.length
+    val outCols = matrix(0).length
+    val out: Array[Array[Int]] = Array
+      .tabulate(outRows, outCols)((r, c) => Integer.MAX_VALUE)
 
-    val numOfRows = hFuns.length
-    val numOfColumns = matrix(0).length
-
-    val signatureMatrix = Array.ofDim[Int](numOfRows, numOfColumns) // initialize result matrix with 0
-    for ((row, i) <- signatureMatrix.zipWithIndex) {
-      for ((column, j) <- row.zipWithIndex) {
-        signatureMatrix(i)(j) = -1 // set all elements to -1
-      }
-    }
-
-    for ((row, i) <- matrix.zipWithIndex) { // loop throw row -> hash -> columns. Applying hash to s1-s4 columns then go to next hash then agaon s1-s4 then do with the second row
-      for ((h, k) <- hFuns.zipWithIndex) {
-        for ((column, j) <- row.zipWithIndex) {
-          val hash = h(i)
-
-          //          val temp0 = matrix(i)(j)
-          if (matrix(i)(j) == 1) {
-            if (hash <= matrix(i)(j) || signatureMatrix(k)(j) == -1) {
-              signatureMatrix(k)(j) = hash
-            }
-          }
-          //          val temp1 = 0
+    for (row <- matrix.indices) {
+      for (hash <- hFuns.indices) {
+        for (col <- matrix(row).indices) {
+          if (matrix(row)(col) == 1 && out(hash)(col) > hFuns(hash)(row))
+            out(hash)(col) = hFuns(hash)(row)
         }
       }
     }
-
-    signatureMatrix
-  }
-
-  def minHashG[T](matrix: Array[Array[Int]], hFuns: Array[Int => Int]): Array[Array[Int]] = {
-
-    val numOfRows = hFuns.length
-    val numOfColumns = matrix(0).length
-
-    val signatureMatrix = Array.ofDim[Int](numOfRows, numOfColumns) // initialize result matrix with 0
-    for ((row, i) <- signatureMatrix.zipWithIndex) {
-      for ((column, j) <- row.zipWithIndex) {
-        signatureMatrix(i)(j) = -1 // set all elements to -1
-      }
-    }
-
-    for ((row, i) <- matrix.zipWithIndex) { // loop throw row -> hash -> columns. Applying hash to s1-s4 columns then go to next hash then agaon s1-s4 then do with the second row
-      for ((h, k) <- hFuns.zipWithIndex) {
-        for ((column, j) <- row.zipWithIndex) {
-          val hash = h(i)
-
-          //          val temp0 = matrix(i)(j)
-          if (matrix(i)(j) == 1) {
-            if (hash <= matrix(i)(j) || signatureMatrix(k)(j) == -1) {
-              signatureMatrix(k)(j) = hash
-            }
-          }
-          //          val temp1 = 0
-        }
-      }
-    }
-
-    signatureMatrix
+    out
   }
 
   /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    *
    * Helper functions that are used in the tests
    *
-   * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   */
-
+   * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
   def printMultipleSets(data: Array[Array[Int]]): Unit = {
     data.foreach(x => println(x.mkString(" ")))
   }
@@ -221,12 +108,12 @@ object JaccardSimilarity {
       else if (X % i == 0) false
       else isPrim(X, i + 1, Max)
     }
+
     if (isPrim(x, 2, math.sqrt(x).toInt + 1)) x
     else findNextPrim(x + 1)
   }
 
   def compareSignatures(sig1: Array[Int], sig2: Array[Int]): Int = {
-
     var res = 0
     for (i <- 0 to sig1.size - 1) {
       if (sig1(i) == sig2(i)) res = res + 1
@@ -252,5 +139,23 @@ object JaccardSimilarity {
     val union = bag1 ++ bag2
 
     intersection.size / union.size.toDouble
+  }
+
+  def minHashG[T](matrix: Array[Array[Int]], hFuns: Array[Int => Int]): Array[Array[Int]] = {
+    val rowLength = matrix(0).length - 1
+    val init: Array[Array[Int]] = Array
+      .tabulate(hFuns.length, rowLength + 1)((x, y) => Integer.MAX_VALUE)
+
+    for (rowNr <- matrix.indices) {
+      for (hnr <- hFuns.indices) {
+        init(hnr) = (for (i <- 0 to rowLength) yield {
+          if (matrix(rowNr)(i) == 1 && init(hnr)(i) > hFuns(hnr)(rowNr))
+            hFuns(hnr)(rowNr)
+          else
+            init(hnr)(i)
+        }).toArray
+      }
+    }
+    init
   }
 }
