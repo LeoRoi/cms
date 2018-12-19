@@ -23,7 +23,12 @@ trait BacktrackingSolution extends TravellingSalesman {
     *   2 - List of cities
     * Output: One shortest path
     * ***********************************************/
-  def getMin(city: Int, cities: List[Int]): Int = ???
+  def getMin(city: Int, cities: List[Int]): Int = {
+    if(cities == Nil) 0
+    else cities.foldLeft(cities.head)((acc, e) =>
+      if(abstand(city)(acc) < abstand(city)(e)) acc
+      else e)
+  }
 
 
   /** **********************************************
@@ -33,7 +38,13 @@ trait BacktrackingSolution extends TravellingSalesman {
     * Input: List of cities
     * Output: A short roundtrip
     * ***********************************************/
-  def findShortWay(start: Int, nodes: List[Int]): List[Int] = ???
+  def findShortWay(start: Int, nodes: List[Int]): List[Int] = {
+    if(nodes == Nil) List(start)
+    else {
+      val next = getMin(start, nodes)
+      start :: findShortWay(next, nodes filter(x => x != next))
+    }
+  }
 
   /** **********************************************
     * CalculateRoundTripSimpleBacktracking should find a shortest path
