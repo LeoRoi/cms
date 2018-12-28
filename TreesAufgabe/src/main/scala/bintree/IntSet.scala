@@ -1,5 +1,9 @@
 package bintree
 
+
+/**
+  * tree construct
+  */
 abstract class IntSet {
   def insert(x: Int): IntSet
   def contains(x: Int): Boolean
@@ -22,6 +26,9 @@ case class NonEmpty(elem: Int, val left: IntSet, val right: IntSet) extends IntS
     else this
 }
 
+/**
+  tree operations
+  */
 object Aufgaben {
   def findSuccessor(tree: IntSet): Option[Int] = {
     def findMostLeftElem(tree: IntSet): Option[Int] = tree match {
@@ -84,34 +91,6 @@ object Aufgaben {
 
   // Funktion ueberfuerhrt einen Binaeren Suchbaum in eine Liste, in dem der
   // Baum Ebene fuer Ebene durchlaufen wird
-  def breadthFirstSearch2(tree: IntSet): List[Int] = {
-    def traverse(acc: List[Int], tree: IntSet): List[Int] = tree match {
-      case node: NonEmpty => {
-        val left = traverse(acc, node.left)
-        val right = traverse(acc, node.right)
-        List(node.elem) ::: left ::: right
-      }
-      case Empty => acc
-    }
-
-    traverse(List(), tree)
-  }
-
-  def breadthFirstSearch3(tree: IntSet): List[Int] = {
-    def traverse(acc: List[(Int, Int)], tree: IntSet, level: Int): List[(Int, Int)] = tree match {
-      case node: NonEmpty => {
-        traverse(acc :+ (level, node.elem), node.left, level+1) :::
-        traverse(acc :+ (level, node.elem), node.right, level+1)
-      }
-      case Empty => acc
-    }
-
-//    traverse(List(), tree).sortWith((x,y) => x < y).map(x => x._2)
-    val out = traverse(List(), tree, 0)
-    println(out)
-    out.sortBy(_._1).map(_._2)
-  }
-
   def breadthFirstSearch(tree: IntSet): List[Int] = {
     def bfs(nodes: List[IntSet]): List[Int] = nodes match {
       case List() => List()

@@ -1,30 +1,16 @@
 package combinations
 
+// https://en.wikipedia.org/wiki/Travelling_salesman_problem
 abstract trait TravellingSalesman {
 
   // Berechnung des Travelling Salesman fuer die Staedte
-  // 0 - Aachen
-  // 1 - Augsburg
-  // 2 - Bayreuth
-  // 3 - Berlin
-  // 4 - Bremen
-  // 5 - Cottbus
-  // 6 - Dresden
-  // 7 - Erfurt
-  // 8 - Essen
-  // 9 - Frankfurt/Main
-  // 10 - Frankfurt/Oder
-  // 11 - Freiburg
-  // 12 - Fulda
-  // 13 - Garmisch-Partenkirchen
-  // 14 - Hamburg
-  // 15 - Hannover
-  // 16 - Karlsruhe
-  // 17 - Kassel
-  // 18 - Kiel
-  // 19 - Koblenz
-  // 20 - Köln
-  // 21 - Leipzig
+  // 0 - Aachen ||| 1 - Augsburg ||| 2 - Bayreuth
+  // 3 - Berlin ||| 4 - Bremen ||| 5 - Cottbus
+  // 6 - Dresden ||| 7 - Erfurt ||| 8 - Essen
+  // 9 - Frankfurt/Main ||| 10 - Frankfurt/Oder ||| 11 - Freiburg
+  // 12 - Fulda ||| 13 - Garmisch-Partenkirchen ||| 14 - Hamburg
+  // 15 - Hannover ||| 16 - Karlsruhe ||| 17 - Kassel
+  // 18 - Kiel ||| 19 - Koblenz ||| 20 - Köln ||| 21 - Leipzig
 
   val staedte = Array("Aachen", "Augsburg", "Bayreuth", "Berlin", "Bremen", "Cottbus", "Dresden", "Erfurt", "Essen", "Frankfurt/Main",
     "Frankfurt/Oder", "Freiburg", "Fulda", "Garmisch-Partenkirchen", "Hamburg", "Hannover", "Kassel", "Kiel", "Koblenz", "Koeln", "Leipzig")
@@ -55,21 +41,47 @@ abstract trait TravellingSalesman {
   abstand(20) = Array(60, 538, 431, 553, 315, 683, 583, 373, 75, 185, 626, 435, 277, 675, 381, 295, 310, 243, 493, 110, 0, 488)
   abstand(21) = Array(573, 431, 198, 184, 367, 244, 140, 170, 475, 407, 211, 642, 311, 513, 387, 252, 515, 278, 485, 454, 488, 0)
 
-  def calculateRoundTrip(cities: List[Int]): List[Int]
+  //returns only the optimal cycle, without using km
+  def calculateRoundTrip(list: List[Int]): List[Int] = {
+    def findOpt(wayOpt: List[Int], kmOpt: Int, tail: List[List[Int]]): List[Int] = tail match {
+      case x :: xs => {
+        val km = calculateCycle(x)
 
-  def calculateDistanceL(way: List[Int]): Int = {
+        if (km < kmOpt) findOpt(x, km, xs)
+        else findOpt(wayOpt, kmOpt, xs)
+      }
+      case Nil => wayOpt
+    }
 
-    def calculateWay(start: Int, way: List[Int]): Int = way match {
-      case x :: y :: rest => abstand(x)(y) + calculateWay(start, y :: rest)
+    if (list == List()) List()
+    else if (list.length == 1) list
+    else {
+      val perms = findPermutations(list)
+      val head :: tail = perms
+      findOpt(head, calculateCycle(head), tail)
+    }
+  }
+
+  // n! = all possible routes
+  def findPermutations(list: List[Int]): List[List[Int]] = list match {
+    case Nil => List(Nil)
+    case _ =>
+      for {j <- list
+           k <- findPermutations(list.diff(List(j)))
+      } yield j :: k
+  }
+
+  def calculateCycle(way: List[Int]): Int = {
+    def calculateDistance(start: Int, way: List[Int]): Int = way match {
+      case x :: y :: rest => abstand(x)(y) + calculateDistance(start, y :: rest)
       case x :: Nil => abstand(x)(start)
       case _ => 0
     }
-
-    calculateWay(way.head, way)
+    calculateDistance(way.head, way)
   }
 
-  def printRoundTripL(way: List[Int]) = {
-
+  // visualization
+  def printRoundTrip(way: List[Int]) = {
     def printWay(start: Int, way: List[Int]): Unit = way match {
       case x :: y :: rest => {
         println("Von " + staedte(way(x)) + " nach " + staedte(way(y)) + " sind es " + abstand(x)(y) + "km")
@@ -79,7 +91,6 @@ abstract trait TravellingSalesman {
         println("Von " + staedte(way(x)) + " nach " + staedte(way(start)) + " sind es " + abstand(x)(start) + "km")
       case _ => println()
     }
-
-    println("\nInsgesamt sind es:" + calculateDistanceL(way) + " km.\n")
+    println("\nInsgesamt sind es: " + calculateCycle(way) + " km.\n")
   }
 }

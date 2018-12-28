@@ -17,26 +17,26 @@ class BacktrackingSolutionTest extends FunSuite with BacktrackingSolution {
 
   test("Loesung des Problems mit einer Stadt") {
     val x = calculateRoundTrip(List(1))
-    val y = calculateDistanceL(x)
+    val y = calculateCycle(x)
     assert(x === List(1))
     assert(y === 0)
   }
 
   test("Loesung des Problems mit zwei Staedten") {
     val x = calculateRoundTrip(List(1, 2))
-    val y = calculateDistanceL(x)
+    val y = calculateCycle(x)
     assert(y === 478)
   }
 
   test("Loesung des Problems mit fünf Staedten") {
     val x = calculateRoundTrip(List(1, 2, 3, 4, 5))
-    val y = calculateDistanceL(x)
+    val y = calculateCycle(x)
     assert(y === 1793)
   }
 
   test("Loesung des Problems mit acht Staedten") {
     val x = calculateRoundTrip(List(1, 2, 3, 4, 5, 6, 7, 8))
-    val y = calculateDistanceL(x)
+    val y = calculateCycle(x)
     assert(y === 2134)
   }
 
@@ -103,26 +103,26 @@ class BacktrackingSolutionTest extends FunSuite with BacktrackingSolution {
 
   test("Loesung des Problems mit einer Stadt (mit Cut nach Abschätzung)") {
     val x = calculateRoundTripWithSimpleBacktracking(List(1))
-    val y = calculateDistanceL(x)
+    val y = calculateCycle(x)
     assert(x === List(1))
     assert(y === 0)
   }
 
   test("Loesung des Problems mit zwei Staedten (mit Cut nach Abschätzung)") {
     val x = calculateRoundTripWithSimpleBacktracking(List(1, 2))
-    val y = calculateDistanceL(x)
+    val y = calculateCycle(x)
     assert(y === 478)
   }
 
   test("Loesung des Problems mit fünf Staedten (mit Cut nach Abschätzung)") {
     val x = calculateRoundTripWithSimpleBacktracking(List(1, 2, 3, 4, 5))
-    val y = calculateDistanceL(x)
+    val y = calculateCycle(x)
     assert(y === 1793)
   }
 
   test("Loesung des Problems mit acht Staedten (mit Cut nach Abschätzung)") {
     val x = calculateRoundTripWithSimpleBacktracking(List(1, 2, 3, 4, 5, 6, 7, 8))
-    val y = calculateDistanceL(x)
+    val y = calculateCycle(x)
     assert(y === 2134)
   }
 
@@ -176,26 +176,26 @@ class BacktrackingSolutionTest extends FunSuite with BacktrackingSolution {
 
   test("Loesung des Problems mit einer Stadt (mit optimiertem Cut)") {
     val x = calculateRoundTripWithOptimizedBacktracking(List(1))
-    val y = calculateDistanceL(x)
+    val y = calculateCycle(x)
     assert(x === List(1))
     assert(y === 0)
   }
 
   test("Loesung des Problems mit zwei Staedten (mit optimiertem Cut)") {
     val x = calculateRoundTripWithOptimizedBacktracking(List(1, 2))
-    val y = calculateDistanceL(x)
+    val y = calculateCycle(x)
     assert(y === 478)
   }
 
   test("Loesung des Problems mit fünf Staedten (mit optimiertem Cut)") {
     val x = calculateRoundTripWithOptimizedBacktracking(List(1, 2, 3, 4, 5))
-    val y = calculateDistanceL(x)
+    val y = calculateCycle(x)
     assert(y === 1793)
   }
 
   test("Loesung des Problems mit acht Staedten (mit optimiertem Cut)") {
     val x = calculateRoundTripWithOptimizedBacktracking(List(1, 2, 3, 4, 5, 6, 7, 8))
-    val y = calculateDistanceL(x)
+    val y = calculateCycle(x)
     assert(y === 2134)
   }
 
