@@ -7,11 +7,13 @@ package bintree
 abstract class IntSet {
   def insert(x: Int): IntSet
   def contains(x: Int): Boolean
+  def union(that: IntSet): IntSet
 }
 
 case object Empty extends IntSet {
   def contains(x: Int): Boolean = false
   def insert(x: Int): IntSet = new NonEmpty(x, Empty, Empty)
+  override def union(that: IntSet): IntSet = that
 }
 
 case class NonEmpty(elem: Int, val left: IntSet, val right: IntSet) extends IntSet {
@@ -20,10 +22,14 @@ case class NonEmpty(elem: Int, val left: IntSet, val right: IntSet) extends IntS
     else if (x > elem) right contains x
     else true
 
+  @Override
   def insert(x: Int): IntSet =
     if (x < elem) NonEmpty(elem, left insert x, right)
     else if (x > elem) NonEmpty(elem, left, right insert x)
     else this
+
+  override def union(that: IntSet): IntSet =
+    ((left union right) union that) insert elem
 }
 
 
@@ -31,6 +37,15 @@ case class NonEmpty(elem: Int, val left: IntSet, val right: IntSet) extends IntS
   tree operations
   */
 object Aufgaben {
+  def mergeListIntoTree(is: IntSet, list: List[Int]): IntSet = {
+    def loop(acc: IntSet, list: List[Int]): IntSet = list match {
+      case Nil => acc
+      case head :: tail => mergeListIntoTree(acc.insert(head), tail)
+    }
+
+    loop(is, list)
+  }
+
   def findSuccessor(tree: IntSet): Option[Int] = {
     def findMostLeftElem(tree: IntSet): Option[Int] = tree match {
       case NonEmpty(value, Empty, _) => Option(value)
@@ -88,6 +103,12 @@ object Aufgaben {
     }
 
     unrollTree(t, List(), 0)
+  }
+
+  def tree2SortedListG(t: IntSet): List[Int] = t match {
+    case Empty => List()
+    case NonEmpty(elem, left, right) =>
+      tree2SortedList(left) ++ List(elem) ++ tree2SortedList(right)
   }
 
   // Funktion ueberfuerhrt einen Binaeren Suchbaum in eine Liste, in dem der
