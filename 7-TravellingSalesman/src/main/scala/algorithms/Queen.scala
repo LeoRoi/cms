@@ -23,8 +23,15 @@ object Queen extends App {
       } yield placed ++ List(newrow)
     }
 
-    placeQueen(N)
+    val ans = placeQueen(N)
+    println("nQueenProblem solutions found with n=" + N + ": " + ans.size + "\n")
+    ans
   }
 
-  println(nQueensProblem(8))
+  /*
+  8 - 92
+  9 - 352
+  10 - 724
+  */
+  println(nQueensProblem(1))
 }
