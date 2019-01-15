@@ -1,8 +1,7 @@
 package bintree
 
-
 /**
-  * tree construct
+  * tree structure
   */
 abstract class IntSet {
   def insert(x: Int): IntSet
@@ -22,7 +21,6 @@ case class NonEmpty(elem: Int, val left: IntSet, val right: IntSet) extends IntS
     else if (x > elem) right contains x
     else true
 
-  @Override
   def insert(x: Int): IntSet =
     if (x < elem) NonEmpty(elem, left insert x, right)
     else if (x > elem) NonEmpty(elem, left, right insert x)
@@ -32,7 +30,6 @@ case class NonEmpty(elem: Int, val left: IntSet, val right: IntSet) extends IntS
     ((left union right) union that) insert elem
 }
 
-
 /**
   tree operations
   */
@@ -40,13 +37,13 @@ object Aufgaben {
   def mergeListIntoTree(is: IntSet, list: List[Int]): IntSet = {
     def loop(acc: IntSet, list: List[Int]): IntSet = list match {
       case Nil => acc
-      case head :: tail => mergeListIntoTree(acc.insert(head), tail)
+      case head :: tail => loop(acc.insert(head), tail)
     }
 
     loop(is, list)
   }
 
-  def findSuccessor(tree: IntSet): Option[Int] = {
+  def findNewRoot(tree: IntSet): Option[Int] = {
     def findMostLeftElem(tree: IntSet): Option[Int] = tree match {
       case NonEmpty(value, Empty, _) => Option(value)
       case NonEmpty(value, left, _) => findMostLeftElem(left)
@@ -58,64 +55,65 @@ object Aufgaben {
     }
   }
 
-  def delete(Elem: Int, tree: IntSet): IntSet = tree match {
+  def delete(deleteMe: Int, tree: IntSet): IntSet = tree match {
 
     // Fall 1: Elememt nicht gefunden
     case Empty => Empty
-    // Fall 2: Element gefunden und rechter oder linker Teilbaum leer
-    case NonEmpty(Elem, Empty, right) => right
-    case NonEmpty(Elem, left, Empty) => left
+
+    // Fall 2: Element gefunden mit einem Teilbaum leer
+    case NonEmpty(`deleteMe`, Empty, right) => right
+    case NonEmpty(`deleteMe`, left, Empty) => left
+
     // Fall 3: Knoten gefunden und ist in der Mitte des Baums
-    case NonEmpty(Elem, left, right) => {
-      val successor = findSuccessor(tree)
-      new NonEmpty(successor.get, left, delete(successor.get, right))
+    case NonEmpty(`deleteMe`, left, right) => {
+      val successor = findNewRoot(tree)
+      NonEmpty(successor.get, left, delete(successor.get, right))
     }
+
     // Weiter Suchen....
-    case NonEmpty(value, left, right) => if (Elem < value) new NonEmpty(value, delete(Elem, left), right)
-    else new NonEmpty(value, left, delete(Elem, right))
+    case NonEmpty(el, left, right) =>
+      if (deleteMe < el) NonEmpty(el, delete(deleteMe, left), right)
+      else NonEmpty(el, left, delete(deleteMe, right))
   }
 
   // Funktion ueberfuehrt eine Liste von Zahlen in einen Binary Tree
   def list2Tree(l: List[Int]): IntSet = {
-    def unrollList(list: List[Int], acc: IntSet): IntSet = list match {
-      case head :: tail => unrollList(tail, acc.insert(head))
+    def loop(list: List[Int], acc: IntSet): IntSet = list match {
       case Nil => acc
+      case head :: tail => loop(tail, acc.insert(head))
     }
 
-    if (l.size == 0)
-      Empty
-    else if (l.size == 1)
-      NonEmpty(l.head, Empty, Empty)
-    else
-      unrollList(l.tail, NonEmpty(l.head, Empty, Empty))
+    if (l.isEmpty) Empty
+    else if (l.size == 1) NonEmpty(l.head, Empty, Empty)
+    else loop(l.tail, NonEmpty(l.head, Empty, Empty))
   }
 
   // Funktion ueberfuehrt einen Binaeren Suchbaum in eine sortierte Liste
-  def tree2SortedList(t: IntSet): List[Int] = {
-    def unrollTree(tree: IntSet, acc: List[Int], lastElement: Int): List[Int] = tree match {
+  def tree2sortedList(tree: IntSet): List[Int] = {
+    def loop(tree: IntSet, acc: List[Int], lastElement: Int): List[Int] = tree match {
+      case Empty => acc
       case node: NonEmpty => {
         val head = node.elem
-        if (acc.isEmpty) unrollTree(delete(head, tree), List(head), head)
-        else if (head >= lastElement) unrollTree(delete(head, tree), acc :+ head, head)
-        else unrollTree(delete(head, tree), List(head) ::: acc, head)
+        if (acc.isEmpty) loop(delete(head, tree), List(head), head)
+        else if (head >= lastElement) loop(delete(head, tree), acc :+ head, head)
+        else loop(delete(head, tree), head :: acc, head)
       }
-      case Empty => acc
     }
 
-    unrollTree(t, List(), 0)
+    loop(tree, List(), 0)
   }
 
   def tree2SortedListG(t: IntSet): List[Int] = t match {
     case Empty => List()
     case NonEmpty(elem, left, right) =>
-      tree2SortedList(left) ++ List(elem) ++ tree2SortedList(right)
+      tree2sortedList(left) ++ List(elem) ++ tree2sortedList(right)
   }
 
-  // Funktion ueberfuerhrt einen Binaeren Suchbaum in eine Liste, in dem der
-  // Baum Ebene fuer Ebene durchlaufen wird
+  // Funktion ueberfuerhrt einen Binaeren Suchbaum in eine Liste,
+  // indem der Baum Ebene fuer Ebene durchlaufen wird
   def breadthFirstSearch(tree: IntSet): List[Int] = {
     def bfs(nodes: List[IntSet]): List[Int] = nodes match {
-      case Nil => List() //nil == empty list
+      case List()=> Nil //nil == empty list
       case Empty :: tail => bfs(tail)
       case NonEmpty(head, Empty, Empty) :: tail => head :: bfs(tail)
       case NonEmpty(head, left: IntSet, right: IntSet) :: tail =>

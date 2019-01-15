@@ -1,15 +1,10 @@
 package test
 
-import org.scalatest.FunSuite
-import org.scalatest.BeforeAndAfterAll
-import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
-import org.apache.spark.rdd.RDD
+import org.apache.spark.{SparkConf, SparkContext}
 import org.junit.runner.RunWith
+import org.scalatest.{BeforeAndAfterAll, FunSuite}
 import org.scalatest.junit.JUnitRunner
 import textanalyse._
-import org.junit.runner.RunWith
-import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
 class ScalableEntityResolutionTest extends FunSuite with BeforeAndAfterAll {
@@ -62,8 +57,8 @@ class ScalableEntityResolutionTest extends FunSuite with BeforeAndAfterAll {
   test("Test Inverse Index Creation") {
 
     entityResolutionScalable.buildInverseIndex()
-    assert(entityResolutionScalable.amazonInvPairsRDD.count === 111387)
-    assert(entityResolutionScalable.googleInvPairsRDD.count === 77678)
+    assert(entityResolutionScalable.amazonInverseIndexPairsRDD.count === 111387)
+    assert(entityResolutionScalable.googleInverseIndexPairsRDD.count === 77678)
   }
 
   test("Swap Test") {
@@ -75,7 +70,7 @@ class ScalableEntityResolutionTest extends FunSuite with BeforeAndAfterAll {
   test("Test determine common tokens") {
     entityResolutionScalable.determineCommonTokens()
     assert(entityResolutionScalable.commonTokens.count === 2441100)
-    // alle waeren 4397038 
+    // alle waeren 4397038
   }
 
   test("Test Similarity Calculation on full dataset") {

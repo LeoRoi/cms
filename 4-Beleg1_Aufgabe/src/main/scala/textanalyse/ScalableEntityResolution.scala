@@ -1,19 +1,14 @@
 package textanalyse
 
-import org.apache.spark.rdd.RDD
-import org.apache.spark.SparkContext
+import org.apache.spark.{Accumulator, SparkContext}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.AccumulatorParam
-import org.apache.spark.Accumulator
-import org.jfree.data.xy.XYSeries
-import org.jfree.data.xy.XYSeriesCollection
-import org.jfree.chart.renderer.xy.XYDotRenderer
+import org.apache.spark.rdd.RDD
+import org.jfree.chart.{ChartPanel, JFreeChart}
 import org.jfree.chart.axis.NumberAxis
 import org.jfree.chart.plot.XYPlot
-import org.jfree.chart.JFreeChart
-import org.jfree.ui.ApplicationFrame
-import org.jfree.chart.ChartPanel
 import org.jfree.chart.renderer.xy.XYSplineRenderer
+import org.jfree.data.xy.{XYSeries, XYSeriesCollection}
+import org.jfree.ui.ApplicationFrame
 
 class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, stopwordsFile: String, goldStandardFile: String) extends EntityResolution(sc, dat1, dat2, stopwordsFile, goldStandardFile) {
 
@@ -23,7 +18,8 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
   val idfsFullBroadcast = sc.broadcast(idfDict)
 
   // Preparation of all Document Vectors
-  def calculateDocumentVector(productTokens: RDD[(String, List[String])], idfDictBroad: Broadcast[Map[String, Double]]): RDD[(String, Map[String, Double])] =
+  def calculateDocumentVector(productTokens: RDD[(String, List[String])],
+                              idfDictBroad: Broadcast[Map[String, Double]]): RDD[(String, Map[String, Double])] =
     productTokens.map(x => (x._1, ScalableEntityResolution.calculateTF_IDFBroadcast(x._2, idfDictBroad)))
 
   val amazonWeightsRDD: RDD[(String, Map[String, Double])] = calculateDocumentVector(amazonTokens, idfsFullBroadcast)
@@ -36,19 +32,19 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
   val googleNormsBroadcast = sc.broadcast(googleNorms)
 
   val BINS = 101
-  val nthresholds = 100
+  val nThresholds = 100
   val zeros: Vector[Int] = Vector.fill(BINS) {
     0
   }
-  val thresholds = for (i <- 1 to nthresholds) yield i / nthresholds.toDouble
-  var falseposDict: Map[Double, Long] = _
-  var falsenegDict: Map[Double, Long] = _
-  var trueposDict: Map[Double, Long] = _
+  val thresholds = for (i <- 1 to nThresholds) yield i / nThresholds.toDouble
+  var falsePositivesDict: Map[Double, Long] = _
+  var falseNegativesDict: Map[Double, Long] = _
+  var truePositivesDict: Map[Double, Long] = _
 
   var fpCounts = sc.accumulator(zeros)(VectorAccumulatorParam)
 
-  var amazonInvPairsRDD: RDD[(String, String)] = _
-  var googleInvPairsRDD: RDD[(String, String)] = _
+  var amazonInverseIndexPairsRDD: RDD[(String, String)] = _
+  var googleInverseIndexPairsRDD: RDD[(String, String)] = _
   var commonTokens: RDD[((String, String), Iterable[String])] = _
 
   var similaritiesFullRDD: RDD[((String, String), Double)] = _
@@ -67,10 +63,10 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
    use invert() and cache the ans!
    */
   def buildInverseIndex(): Unit = {
-    amazonInvPairsRDD = amazonWeightsRDD.map(x => ScalableEntityResolution.invert(x))
-        .flatMap(z => z).cache()
-    googleInvPairsRDD = googleWeightsRDD.map(x => ScalableEntityResolution.invert(x))
-      .flatMap(z => z).cache()
+    amazonInverseIndexPairsRDD = amazonWeightsRDD.map(x =>
+      ScalableEntityResolution.invert(x)).flatMap(z => z).cache()
+    googleInverseIndexPairsRDD = googleWeightsRDD.map(x =>
+      ScalableEntityResolution.invert(x)).flatMap(z => z).cache()
   }
 
   /*
@@ -82,29 +78,15 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
    * OUT: var commonTokens: RDD[((String, String), Iterable[String])] = _
    */
   def determineCommonTokens(): Unit = {
-    determineCommonTokensD()
-//    val acc = sc.accumulator(List(): List[String])(ScalableEntityResolution)
-//
-//    amazonInvPairsRDD.cartesian(googleInvPairsRDD)
-//      .filter(x => x._1._1 == x._2._1)
-//      .map(inter => (inter._1._2, inter._2._2, inter._2._1))
-//      .aggregate(Map[(String, String), List[String]])((acc, e) =>
-//        acc + ((e._1, e._2) -> (acc.getOrElse((e._1, e._2), List()) :+ e._3)))((acc1, acc2) => acc1 ++ acc2)
-//
-//      .foldLeft(Map[(String, String), List[String]]())((acc, e) =>
-//        acc + ((e._1, e._2) -> (acc.getOrElse((e._1, e._2), List()) :+ e._3)))
-  }
-
-  def determineCommonTokensD(): Unit = {
-    val cart = amazonTokens.cartesian(googleTokens)
+    val cartesian = amazonTokens.cartesian(googleTokens)
 
     //map every element to ((docID1, docID2), intersection of token lists)
-    val intersected = cart.map(x =>
+    val intersection = cartesian.map(x =>
       ((x._1._1, x._2._1), x._1._2.intersect(x._2._2).toIterable))
 
     //filter the empty intersections
-    val filtered = intersected.filter(x => x._2.nonEmpty)
-    commonTokens = filtered
+    val filteredIntersection = intersection.filter(x => x._2.nonEmpty)
+    commonTokens = filteredIntersection
   }
 
   /*
@@ -119,36 +101,41 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
    * Speichern Sie das Ergebnis in der Variable simsFillValuesRDD und cachen sie diese.
    */
   def calculateSimilaritiesFullDataset(): Unit = {
-    val calcSim = ScalableEntityResolution.fastCosinusSimilarity(_: ((String, String), Iterable[String]), _: Broadcast[Map[String, Map[String, Double]]], _: Broadcast[Map[String, Map[String, Double]]], _: Broadcast[Map[String, Double]], _: Broadcast[Map[String, Double]])
+    val calcSim = ScalableEntityResolution.fastCosinusSimilarity(_: ((String, String), Iterable[String]),
+      _: Broadcast[Map[String, Map[String, Double]]],
+      _: Broadcast[Map[String, Map[String, Double]]],
+      _: Broadcast[Map[String, Double]],
+      _: Broadcast[Map[String, Double]])
     val commonTokens_ = commonTokens
     val amazonWeightsBroadcast_ = amazonWeightsBroadcast
     val googleWeightsBroadcast_ = googleWeightsBroadcast
     val amazonNormsBroadcast_ = amazonNormsBroadcast
     val googleNormsBroadcast_ = googleNormsBroadcast
 
-    val temp = commonTokens_.map(x =>
-      calcSim(x, amazonWeightsBroadcast_, googleWeightsBroadcast_, amazonNormsBroadcast_, googleNormsBroadcast_)).cache()
+    val docIdsWithSimilarity = commonTokens_.map(x =>
+      calcSim(x, amazonWeightsBroadcast_, googleWeightsBroadcast_,
+        amazonNormsBroadcast_, googleNormsBroadcast_)).cache()
 
-    similaritiesFullRDD = temp
+    similaritiesFullRDD = docIdsWithSimilarity
     simsFullValuesRDD = similaritiesFullRDD.map(_._2).cache()
   }
 
   /*
    * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   * 
+   *
    * Analyse des gesamten Datensatzes mittels des Gold-Standards
-   * 
+   *
    * Berechnung:
    * True-Positive
    * False_Positive
-   * True-Negative 
+   * True-Negative
    * False-Negative
-   * 
+   *
    * und daraus
    * Precision
-   * Recall 
+   * Recall
    * F-Measure
-   * 
+   *
    * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    */
 
@@ -156,53 +143,50 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
     val simsFullRDD = similaritiesFullRDD.map(x => (x._1._1 + " " + x._1._2, x._2)).cache
     simsFullRDD.take(10).foreach(println)
     goldStandard.take(10).foreach(println)
+
     val tds = goldStandard.leftOuterJoin(simsFullRDD)
     tds.filter(x => x._2._2 == None).take(100).foreach(println)
     trueDupSimsRDD = goldStandard.leftOuterJoin(simsFullRDD).map(ScalableEntityResolution.gs_value(_)).cache()
 
     def calculateFpCounts(fpCounts: Accumulator[Vector[Int]]): Accumulator[Vector[Int]] = {
       val BINS = this.BINS
-      val nthresholds = this.nthresholds
+      val nthresholds = this.nThresholds
       val fpCounts_ : Accumulator[Vector[Int]] = fpCounts
+
       simsFullValuesRDD.foreach(ScalableEntityResolution.add_element(_, BINS, nthresholds, fpCounts_))
       trueDupSimsRDD.foreach(ScalableEntityResolution.sub_element(_, BINS, nthresholds, fpCounts_))
       fpCounts_
     }
 
     fpCounts = calculateFpCounts(fpCounts)
-    falseposDict = (for (t <- thresholds) yield (t, falsepos(t, fpCounts))).toMap
-    falsenegDict = (for (t <- thresholds) yield (t, falseneg(t))).toMap
-    trueposDict = (for (t <- thresholds) yield (t, truepos(t))).toMap
+    falsePositivesDict = (for (t <- thresholds) yield (t, falsepos(t, fpCounts))).toMap
+    falseNegativesDict = (for (t <- thresholds) yield (t, falseneg(t))).toMap
+    truePositivesDict = (for (t <- thresholds) yield (t, truepos(t))).toMap
 
     val precisions = for (t <- thresholds) yield (t, precision(t))
     val recalls = for (t <- thresholds) yield (t, recall(t))
-    val fmeasures = for (t <- thresholds) yield (t, fmeasure(t))
+    val fMeasures = for (t <- thresholds) yield (t, fmeasure(t))
 
     val series1: XYSeries = new XYSeries("Precision");
-    for (el <- precisions) {
-      series1.add(el._1, el._2)
-    }
-    val series2: XYSeries = new XYSeries("Recall");
-    for (el <- recalls) {
-      series2.add(el._1, el._2)
-    }
-    val series3: XYSeries = new XYSeries("F-Measure");
-    for (el <- fmeasures) {
-      series3.add(el._1, el._2)
-    }
+    for (el <- precisions) series1.add(el._1, el._2)
 
-    val datasetColl: XYSeriesCollection = new XYSeriesCollection
-    datasetColl.addSeries(series1)
-    datasetColl.addSeries(series2)
-    datasetColl.addSeries(series3)
+    val series2: XYSeries = new XYSeries("Recall");
+    for (el <- recalls) series2.add(el._1, el._2)
+
+    val series3: XYSeries = new XYSeries("F-Measure");
+    for (el <- fMeasures) series3.add(el._1, el._2)
+
+    val datasetCollection: XYSeriesCollection = new XYSeriesCollection
+    datasetCollection.addSeries(series1)
+    datasetCollection.addSeries(series2)
+    datasetCollection.addSeries(series3)
 
     val spline: XYSplineRenderer = new XYSplineRenderer();
     spline.setPrecision(10);
 
     val xax: NumberAxis = new NumberAxis("Similarities");
     val yax: NumberAxis = new NumberAxis("Precision/Recall/F-Measure");
-
-    val plot: XYPlot = new XYPlot(datasetColl, xax, yax, spline);
+    val plot: XYPlot = new XYPlot(datasetCollection, xax, yax, spline);
 
     val chart: JFreeChart = new JFreeChart(plot);
     val frame: ApplicationFrame = new ApplicationFrame("Dataset Analysis");
@@ -210,8 +194,9 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
 
     frame.setContentPane(chartPanel1);
     frame.pack();
-    frame.setVisible(true);
-    println("Please press enter....")
+    frame.setVisible(true)
+
+    println("\nPlease press enter....")
     System.in.read()
   }
 
@@ -221,7 +206,7 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
    */
   def falsepos(threshold: Double, fpCounts: Accumulator[Vector[Int]]): Long = {
     val fpList = fpCounts.value
-    (for (b <- Range(0, BINS) if b.toDouble / nthresholds >= threshold) yield fpList(b)).sum
+    (for (b <- Range(0, BINS) if b.toDouble / nThresholds >= threshold) yield fpList(b)).sum
   }
 
   def falseneg(threshold: Double): Long = {
@@ -231,23 +216,23 @@ class ScalableEntityResolution(sc: SparkContext, dat1: String, dat2: String, sto
 
   def truepos(threshold: Double): Long = {
 
-    trueDupSimsRDD.count() - falsenegDict(threshold)
+    trueDupSimsRDD.count() - falseNegativesDict(threshold)
   }
 
-  /* 
-   * 
+  /*
+   *
    * Precision = true-positives / (true-positives + false-positives)
    * Recall = true-positives / (true-positives + false-negatives)
-   * F-measure = 2 x Recall x Precision / (Recall + Precision) 
+   * F-measure = 2 x Recall x Precision / (Recall + Precision)
    */
   def precision(threshold: Double): Double = {
-    val tp = trueposDict(threshold)
-    tp.toDouble / (tp + falseposDict(threshold))
+    val tp = truePositivesDict(threshold)
+    tp.toDouble / (tp + falsePositivesDict(threshold))
   }
 
   def recall(threshold: Double): Double = {
-    val tp = trueposDict(threshold)
-    tp.toDouble / (tp + falsenegDict(threshold))
+    val tp = truePositivesDict(threshold)
+    tp.toDouble / (tp + falseNegativesDict(threshold))
   }
 
   def fmeasure(threshold: Double): Double = {
@@ -271,15 +256,14 @@ object ScalableEntityResolution {
   }
 
   /*
-  in: List of (ID, tokenList with TFIDF-value)
-  out: List[(token,ID)]
+  in: List of (ID, tokenList with TF-IDF-value)
+  out: List[(token, doc ID)]
    */
   def invert(termlist: (String, Map[String, Double])): List[(String, String)] =
-    termlist._2.keys.map(x => (x, termlist._1)).toList
+    termlist._2.keys.map(word => (word, termlist._1)).toList
 
   /*
-   * Wandelt das Format eines Elements für die Anwendung der
-   * RDD-Operationen.
+   * Wandelt das Format eines Elements für die Anwendung der RDD-Operationen.
    */
   def swap(el: (String, (String, String))): ((String, String), String) =
     (el._2, el._1)

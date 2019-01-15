@@ -4,7 +4,6 @@ import matrix._
 import org.scalatest.FunSuite
 
 class ListTest extends FunSuite {
-
   trait TestMatrizes {
     val m0 = new Matrix(Array(Array(2, 4, 1), Array(123, 21, 34), Array(34, 1, 2345)))
     val m1 = new Matrix(Array(Array(2, 4, 1), Array(123, 21, 34), Array(34, 1, 2345)))
@@ -17,9 +16,11 @@ class ListTest extends FunSuite {
     val m8 = new Matrix(Array(Array(0, 4, 0), Array(8, 0, 0), Array(0, 0, 18)))
     val m9 = new Matrix(Array(Array(11, 12), Array(13, 14), Array(15, 16)))
     val m2_m9 = new Matrix(Array(Array(82, 88), Array(199, 214), Array(316, 340)))
+
     val l8 = List(((1, 0), 8.0), ((2, 2), 18.0), ((0, 1), 4.0))
     val l2 = List(((0, 0), 1.0), ((0, 1), 2.0), ((0, 2), 3.0), ((1, 0), 4.0), ((1, 1), 5.0), ((1, 2), 6.0), ((2, 0), 7.0), ((2, 1), 8.0), ((2, 2), 9.0))
     val l3 = List(((0, 0), 1.0), ((0, 1), 2.0), ((0, 2), 3.0), ((1, 0), 4.0), ((1, 1), 5.0), ((1, 2), 6.0), ((2, 0), 7.0), ((2, 1), 8.0))
+
     val sm = new SparseMatrix(l3, 3, 3)
     val sm_m9 = new Matrix(Array(Array(82, 88), Array(199, 214), Array(181, 196)))
   }
@@ -61,12 +62,14 @@ class ListTest extends FunSuite {
       }
     }
   }
+
   test("Multiplikation mit einem Vektor 2") {
     new TestMatrizes {
       val r = m2 * Array(1.0, 2.0, 1.0)
       assert(r.sameElements(Array(8, 20, 32)))
     }
   }
+
   test("Multiplikation mit einer Matrize 1") {
     new TestMatrizes {
       val r = m2 * m2

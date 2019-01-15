@@ -1,8 +1,7 @@
 package wikiplag
 
-import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.Row
 import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.rdd.RDD
 
 object WikiPlagFuns {
 
@@ -20,15 +19,15 @@ object WikiPlagFuns {
    *      - deleting all stop-words and
    *      - extracting all word indexes (docID, list index)
  */
-  def extractIndexes(doc: (Long, String, List[String]), stopWords: List[String]):
+  def addIndexes(doc: (Long, String, List[String]), stopWords: List[String]):
   List[(String, (Long, Int))] = {
-    def slave(i: Int, id: Long, title: String, tail: List[String], acc: List[(String, (Long, Int))]):
+    def loop(i: Int, id: Long, title: String, tail: List[String], acc: List[(String, (Long, Int))]):
     List[(String, (Long, Int))] = tail match {
-      case h :: t => slave(i+1, id, title, t, acc :+ (h, (id, i)))
       case Nil => acc
+      case word::tail => loop(i+1, id, title, tail, acc :+ (word, (id, i)))
     }
 
-    slave(0, doc._1, doc._2, doc._3.map(_.toLowerCase).diff(stopWords), List())
+    loop(0, doc._1, doc._2, doc._3.map(_.toLowerCase).diff(stopWords), List())
   }
 
   /*
@@ -37,10 +36,11 @@ object WikiPlagFuns {
    *  and all occurrences (document id, index) that word
  */
 
-  def createIndex(data: RDD[(Long, String, List[String])], stopWords: List[String]):
+  def createInverseIndex(data: RDD[(Long, String, List[String])], stopWords: List[String]):
   Map[String, List[(Long, Int)]] = {
     val dataPrep = data.map(x => (x._1, x._2, x._3.map(_.toLowerCase).diff(stopWords)))
-      .flatMap(x => extractIndexes(x, stopWords)).collect().toList
+      .flatMap(x => addIndexes(x, stopWords))
+      .collect().toList
 
     dataPrep.foldLeft(Map[String, List[(Long, Int)]]())((acc, e) =>
       acc + (e._1 -> (acc.getOrElse(e._1, List()) :+ (e._2._1, e._2._2))))
@@ -55,12 +55,12 @@ object WikiPlagFuns {
                                   stopWords: List[String],
                                   swa: StopWordAccumulator): Map[String, List[(Long, Int)]] = {
     val sw = data.map(x => (x._1, x._2, x._3.map(_.toLowerCase)))
-      .flatMap(x => extractIndexes(x, stopWords))
+      .flatMap(x => addIndexes(x, stopWords))
       .filter(x => stopWords.contains(x._1))
       .map(x => swa.add(x._1, x._2._1))
     println(swa.value)
 
-    createIndex(data, stopWords)
+    createInverseIndex(data, stopWords)
   }
 
   def extractIndexesWithAccumulator(doc: (Long, String, List[String]),
@@ -74,7 +74,7 @@ object WikiPlagFuns {
   def createIndexWithBroadcast(data: RDD[(Long, String, List[String])], stopWords: Broadcast[List[String]]):
   Map[String, List[(Long, Int)]] = {
     val dataPrep = data.map(x => (x._1, x._2, x._3.map(_.toLowerCase).diff(stopWords.value)))
-      .flatMap(x => extractIndexes(x, stopWords.value)).collect().toList
+      .flatMap(x => addIndexes(x, stopWords.value)).collect().toList
 
     dataPrep.foldLeft(Map[String, List[(Long, Int)]]())((acc, e) =>
       acc + (e._1 -> (acc.getOrElse(e._1, List()) :+ (e._2._1, e._2._2))))
@@ -101,7 +101,7 @@ object WikiPlagFuns {
                                        stopWords: List[String],
                                        swa: StopWordAccumulator): Map[String, List[(Long, Int)]] = {
     val sw = data.map(x => (x._1, x._2, x._3.map(_.toLowerCase)))
-        .flatMap(x => extractIndexes(x, stopWords))
+        .flatMap(x => addIndexes(x, stopWords))
         .filter(x => stopWords.contains(x._1))
         .foreach(x => swa.add(x._1, x._2._1))
 //    sw.collect { case x => swa.add(x._1, x._2._1) }
@@ -109,7 +109,7 @@ object WikiPlagFuns {
 //    aggreate
     println(swa.value)
 
-    createIndex(data, stopWords)
+    createInverseIndex(data, stopWords)
   }
 }
 

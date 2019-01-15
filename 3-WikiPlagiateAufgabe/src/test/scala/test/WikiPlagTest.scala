@@ -1,15 +1,11 @@
 package test
 
-import org.scalatest.FunSuite
-import org.scalatest.BeforeAndAfterAll
-import org.scalatest.BeforeAndAfter
-import org.apache.spark.SparkConf
-import org.apache.spark.SparkContext
-import org.apache.spark.rdd.RDD
+import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.rdd.RDD
 import org.junit.runner.RunWith
+import org.scalatest.{BeforeAndAfterAll, FunSuite}
 import org.scalatest.junit.JUnitRunner
-import org.apache.spark.sql.Row
 import wikiplag._
 
 @RunWith(classOf[JUnitRunner])
@@ -46,26 +42,60 @@ class WikiPlagTest extends FunSuite with BeforeAndAfterAll {
 
   override protected def beforeAll() {
 
-//    local execution with 4 processes
+    //    local execution with 4 processes
     conf = new SparkConf().setMaster("local[4]").setAppName("WikiPlagTest")
-    conf.set("spark.executor.memory", "8g")
-    conf.set("spark.driver.memory", "4g")
+      .set("spark.executor.memory", "8g").set("spark.driver.memory", "4g")
     sc = new SparkContext(conf)
 
     parsed_articles = Utilities.getData("wiki_articlesShort.xml", "resources", sc).cache
     if (parsed_articles == null) {
       println("RDD is null!"); System.exit(0)
     }
-    println("Anzahl:" + parsed_articles.count)
+
+    println("Anzahl: " + parsed_articles.count)
   }
 
   test("Parsing Successful") {
-
     assert(parsed_articles.count == 383)
   }
 
-  test("Top X words") {
+  test("StopWordAccumulator.merge") {
+    val acc1 = new StopWordAccumulator
+    val acc2 = new StopWordAccumulator
+    val a = "a"
 
+    acc1.add(a, 1)
+    acc1.add(a, 11)
+    println(acc1.value)
+
+    acc2.add(a, 8)
+    println(acc2.value)
+
+    acc1.merge(acc2)
+    println(acc1.value)
+    assert(acc1.value(a).equals(List(11, 1, 8)))
+  }
+
+  test("StopWordAccumulator.add") {
+    val acc = new StopWordAccumulator
+    assert(acc.isZero)
+
+    val a = "a"
+
+    acc.add(a, 1)
+    println(acc.value)
+
+    acc.add("b", 2)
+    println(acc.value)
+
+    acc.add(a, 11)
+    println(acc.value)
+
+    assert(!acc.isZero)
+    assert(acc.value(a).equals(List(11, 1)))
+  }
+
+  test("Top X words") {
     val words = WikiPlagFuns.getTopXWords(parsed_articles, 10)
     val expresult = List(("der", 28753), ("und", 24243), ("die", 21400), ("in", 14868), ("von", 11657),
       ("den", 8626), ("des", 8011), ("mit", 6957), ("im", 6009), ("zu", 5911))
@@ -74,7 +104,7 @@ class WikiPlagTest extends FunSuite with BeforeAndAfterAll {
 
   test("extractIndexes Test") {
 
-    val res = WikiPlagFuns.extractIndexes(data3.head, eStopWords).sortBy(_._2._2)
+    val res = WikiPlagFuns.addIndexes(data3.head, eStopWords).sortBy(_._2._2)
     val exp = List(("döner", (3, 0)), ("besteht", (3, 1)), ("mit", (3, 2)), ("marinade", (3, 3)), ("gewürzten", (3, 4)),
       ("fleisscheiben", (3, 5)), ("schichtweise", (3, 6)), ("einen", (3, 7)), ("senkrecht", (3, 8)), ("stehenden", (3, 9)),
       ("drehspieß", (3, 10)), ("gesteckt", (3, 11)), ("seitlich", (3, 12)), ("gegrillt", (3, 13)), ("werden", (3, 14)))
@@ -83,7 +113,7 @@ class WikiPlagTest extends FunSuite with BeforeAndAfterAll {
 
   test("Create Inverse Index Test") {
 
-    val res = WikiPlagFuns.createIndex(sc.parallelize(testdata), eStopWords).toList.sortBy(_._1)
+    val res = WikiPlagFuns.createInverseIndex(sc.parallelize(testdata), eStopWords).toList.sortBy(_._1)
     assert(res === invInd)
   }
 
@@ -105,7 +135,7 @@ class WikiPlagTest extends FunSuite with BeforeAndAfterAll {
 
   test("Create Inverse Index Test with broadcast") {
     val bcstopWords: Broadcast[List[String]] = sc.broadcast(eStopWords)
-    val res = WikiPlagFuns.createIndex(sc.parallelize(testdata), eStopWords).toList.sortBy(_._1)
+    val res = WikiPlagFuns.createInverseIndex(sc.parallelize(testdata), eStopWords).toList.sortBy(_._1)
     val res_s = res.map(x => (x._1, x._2.sortWith((el1, el2) => {
       if (el1._1 < el2._1) true
       else if (el1._1 == el2._1 && el1._2 < el2._2) true
@@ -132,7 +162,7 @@ class WikiPlagTest extends FunSuite with BeforeAndAfterAll {
   test("Create Inverse Index") {
 
     val stopWords = WikiPlagFuns.getTopXWords(parsed_articles, 10).map(_._1)
-    word_index = WikiPlagFuns.createIndex(parsed_articles, stopWords)
+    word_index = WikiPlagFuns.createInverseIndex(parsed_articles, stopWords)
   }
 
   override protected def afterAll() {

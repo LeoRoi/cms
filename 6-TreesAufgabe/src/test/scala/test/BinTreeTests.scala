@@ -48,7 +48,7 @@ class Beleg1Tests extends FunSuite {
   }
   test("Tree2sortedList") {
     new TestTrees {
-      assert(List(1, 2, 3, 5, 6, 9) === Aufgaben.tree2SortedList(t1))
+      assert(List(1, 2, 3, 5, 6, 9) === Aufgaben.tree2sortedList(t1))
     }
   }
 
@@ -60,7 +60,7 @@ class Beleg1Tests extends FunSuite {
 
   test("Binary Tree insert mit Doppelten") {
     new TestTrees {
-      assert(List(1, 2, 3, 5, 6, 9) === Aufgaben.tree2SortedList(t2))
+      assert(List(1, 2, 3, 5, 6, 9) === Aufgaben.tree2sortedList(t2))
     }
   }
   test("BreadtFirstSearchTest") {
@@ -86,7 +86,7 @@ class Beleg1Tests extends FunSuite {
   }
   test("findSuccessor-Test") {
     new TestTrees {
-      assert(Option(4) === Aufgaben.findSuccessor(t3))
+      assert(Option(4) === Aufgaben.findNewRoot(t3))
     }
   }
   test("Delete-Elem not found") {

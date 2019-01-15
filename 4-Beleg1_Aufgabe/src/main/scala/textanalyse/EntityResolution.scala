@@ -68,14 +68,12 @@ class EntityResolution(sc: SparkContext, dat1: String, dat2: String, stopwordsFi
    * OUT var idfDict: Map[String, Double] = _
    */
   def calculateIDF(): Unit = {
-    val docAmount = corpusRDD.count.toDouble //each line is a doc
-    val wordSet = corpusRDD.map(row => row._2)
+    val docsSize = corpusRDD.count.toDouble //each line is a doc
+    val corpus = corpusRDD.map(row => row._2)
       .reduce((doc1, doc2) => doc1 ::: doc2).toSet
 
-    idfDict = wordSet.map(word =>
-      (word, docAmount / corpusRDD.map(row => row._2)
-        .filter(doc => doc.contains(word)).count.toDouble))
-      .toMap
+    idfDict = corpus.map(word => (word, docsSize / corpusRDD.map(row => row._2)
+      .filter(doc => doc.contains(word)).count.toDouble)).toMap
   }
 
   /**
@@ -87,11 +85,10 @@ class EntityResolution(sc: SparkContext, dat1: String, dat2: String, stopwordsFi
   def simpleSimilarityCalculation: RDD[(String, String, Double)] = {
     val amazonRDD_ = amazonRDD
     val googleRDD_ = googleRDD
-    val similarity = EntityResolution.computeSimilarity(_: ((String, String), (String, String)),
-      _: Map[String, Double], _: Set[String])
-
     val stopWords_ = stopWords
     val idfDict_ = idfDict
+    val similarity = EntityResolution.computeSimilarity(_: ((String, String), (String, String)),
+    _: Map[String, Double], _: Set[String])
 
     amazonRDD_.cartesian(googleRDD_)
       .map(x => similarity(x, idfDict_, stopWords_))
@@ -225,8 +222,7 @@ object EntityResolution {
    * Menge aller Wörter innerhalb eines Dokuments
    */
   def getTermFrequencies(tokens: List[String]): Map[String, Double] =
-    tokens.groupBy(x => x)
-      .map(x => (x._1, x._2.size / tokens.size.toDouble))
+    tokens.groupBy(x => x).map(x => (x._1, x._2.size / tokens.size.toDouble))
 
   /*
    * Bererechnung der Document-Similarity einer Produkt-Kombination
@@ -268,9 +264,8 @@ object EntityResolution {
   /*
    * Berechnung der Cosinus-Similarity für zwei Vectoren
    */
-  def calculateCosinusSimilarity(doc1: Map[String, Double], doc2: Map[String, Double]): Double = {
-    calculateDotProduct(doc1, doc2) / (calculateNorm(doc1) * calculateNorm(doc2))
-  }
+  def calculateCosinusSimilarity(doc1: Map[String, Double], doc2: Map[String, Double]): Double =
+    calculateDotProduct(doc1, doc2) / ( calculateNorm(doc1) * calculateNorm(doc2) )
 
   /*
    * Berechnung der Document-Similarity für ein Dokument
@@ -281,7 +276,6 @@ object EntityResolution {
 
     val vec1 = calculateTF_IDF(tokenize(doc1, stopWords), idfDictionary)
     val vec2 = calculateTF_IDF(tokenize(doc2, stopWords), idfDictionary)
-
     calculateCosinusSimilarity(vec1, vec2)
   }
 
@@ -294,7 +288,6 @@ object EntityResolution {
   def computeSimilarityWithBroadcast(record: ((String, String), (String, String)),
                                      idfBroadcast: Broadcast[Map[String, Double]],
                                      stopWords: Set[String]): (String, String, Double) = {
-
     val entryOne = record._1
     val entryTwo = record._2
 

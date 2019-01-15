@@ -5,7 +5,8 @@ class Matrix(data: Array[Array[Double]]) {
   // tests the matrix:
   //      -  size of rows
   //      -  row or size empty?
-  require(data != null && (data forall (X => X.size == data(0).size)) && data.size > 0 && data(0).size > 0)
+  require(data != null
+    && (data forall (X => X.size == data(0).size)) && data.size > 0 && data(0).size > 0)
 
   def toArray: Array[Array[Double]] = data
 
@@ -40,7 +41,8 @@ class Matrix(data: Array[Array[Double]]) {
   // multiplies each row with a vector and sums all components
   def *(v: Vector): Vector = {
     require(columns == v.size)
-    ???
+    new Array (for (row <- data)
+      yield for(e <- row) yield row zip v map(x => x._1 * x._2) reduceLeft(_+_))
   }
 
   // multiplies two matrices
