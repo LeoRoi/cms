@@ -55,8 +55,19 @@ class WikiPlagTest extends FunSuite with BeforeAndAfterAll {
     println("Anzahl: " + parsed_articles.count)
   }
 
-  test("Parsing Successful") {
-    assert(parsed_articles.count == 383)
+  test("StopWordAccumulator.reset") {
+    val acc = new StopWordAccumulator
+    assert(acc.isZero)
+    val a = "a"
+
+    acc.add(a, 1)
+    acc.add(a, 11)
+    println(acc.value)
+    assert(!acc.isZero)
+
+    acc.reset
+    println(acc.value)
+    assert(acc.isZero)
   }
 
   test("StopWordAccumulator.merge") {
@@ -93,6 +104,10 @@ class WikiPlagTest extends FunSuite with BeforeAndAfterAll {
 
     assert(!acc.isZero)
     assert(acc.value(a).equals(List(11, 1)))
+  }
+
+  test("Parsing Successful") {
+    assert(parsed_articles.count == 383)
   }
 
   test("Top X words") {

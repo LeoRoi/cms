@@ -2,22 +2,23 @@ package matrix
 
 class Matrix(data: Array[Array[Double]]) {
   type Vector = Array[Double]
-  // tests the matrix:
-  //      -  size of rows
-  //      -  row or size empty?
-  require(data != null
-    && (data forall (X => X.size == data(0).size)) && data.size > 0 && data(0).size > 0)
 
-  def toArray: Array[Array[Double]] = data
+  // data has rows of the matrix, top down
+  require(data != null
+    && (data forall (X => X.size == data(0).size)) // all rows have same length
+    && data.size > 0
+    && data(0).size > 0)
 
   val rows = data.size
   val columns = data(0).size
 
-  def equals(matrix: Matrix): Boolean = {
-    data.flatMap(x => x).sameElements(matrix.toArray flatMap (x => x))
-  }
+  def toArray: Array[Array[Double]] = data
 
-  def transpose: Matrix = new Matrix(data.transpose)
+  def equals(matrix: Matrix): Boolean =
+    data.flatten.sameElements(matrix.toArray flatMap (x => x))
+
+  def transpose: Matrix =
+    new Matrix(data.transpose)
 
   override def toString = {
     val s = for (row <- data) yield (row mkString ("\t"))
@@ -41,8 +42,8 @@ class Matrix(data: Array[Array[Double]]) {
   // multiplies each row with a vector and sums all components
   def *(v: Vector): Vector = {
     require(columns == v.size)
-    new Array (for (row <- data)
-      yield for(e <- row) yield row zip v map(x => x._1 * x._2) reduceLeft(_+_))
+    for (row <- this.data)
+      yield row.zip(v).map(x => x._1 * x._2).sum
   }
 
   // multiplies two matrices
@@ -56,7 +57,7 @@ class Matrix(data: Array[Array[Double]]) {
   // transform a matrix in to a sparse representation
   def toSparseMatrix: SparseMatrix = {
     new SparseMatrix(
-      (for {i <- 0 to data.length - 1; j <- 0 to data(0).length - 1 if (data(i)(j) != 0)}
+      (for {i <- data.indices; j <- data(0).indices if (data(i)(j) != 0)}
         yield ((i, j), data(i)(j))) toList, rows, columns)
   }
 }
@@ -72,6 +73,5 @@ object Matrix {
   }
 
   def vectorMult(v1: Vector, v2: Vector): Double =
-
-    ???
+    v1.zip(v2).map(x => x._1 * x._2).sum
 }

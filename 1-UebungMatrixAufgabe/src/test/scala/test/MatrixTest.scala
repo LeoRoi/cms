@@ -25,11 +25,20 @@ class ListTest extends FunSuite {
     val sm_m9 = new Matrix(Array(Array(82, 88), Array(199, 214), Array(181, 196)))
   }
 
+  test("vectorMult") {
+    new TestMatrizes {
+      val v1 = m2.toArray(2)
+      val v2 = Array(1.0, 2.0, 1.0)
+      assert(Matrix.vectorMult(v1, v2) === 32)
+    }
+  }
+
   test("Kein gueltiges Array bei der Konstruktion") {
     intercept[IllegalArgumentException] {
       new Matrix(Array(Array(2, 4, 1), Array(123, 34)))
     }
   }
+
   test("Leeres Array bei der Konstruktion 1") {
     intercept[IllegalArgumentException] {
       new Matrix(Array())
