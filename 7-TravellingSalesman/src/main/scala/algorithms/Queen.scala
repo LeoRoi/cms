@@ -32,6 +32,7 @@ object Queen extends App {
   8 - 92
   9 - 352
   10 - 724
+  solutions grow since N is actually the board size
   */
   println(nQueensProblem(1))
 }

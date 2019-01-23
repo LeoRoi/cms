@@ -29,7 +29,7 @@ class Beleg1Tests extends FunSuite {
 
   test("Union") {
     new TestTrees {
-      assert(t0.union(Aufgaben.list2Tree(List(2,4))) === Aufgaben.list2Tree(List(2,4,3,15,10,7)))
+      assert(t0.union(Aufgaben.list2Tree(List(2, 4))) === Aufgaben.list2Tree(List(2, 4, 3, 15, 10, 7)))
     }
   }
 
@@ -63,11 +63,21 @@ class Beleg1Tests extends FunSuite {
       assert(List(1, 2, 3, 5, 6, 9) === Aufgaben.tree2sortedList(t2))
     }
   }
+
   test("BreadtFirstSearchTest") {
     new TestTrees {
       assert(List(3, 2, 6, 1, 5, 9, 4, 11) === Aufgaben.breadthFirstSearch(t3))
     }
   }
+
+  test("printBreadtFirst") {
+    new TestTrees {
+      val ans = Aufgaben.printBreadthFirst((t0))
+      println(ans)
+      assert(List((7,0), (3,1), (10,2), (15,4)) === ans)
+    }
+  }
+
   test("HeightTest") {
     new TestTrees {
       assert(0 === Aufgaben.height(NonEmpty(9, Empty, Empty)))

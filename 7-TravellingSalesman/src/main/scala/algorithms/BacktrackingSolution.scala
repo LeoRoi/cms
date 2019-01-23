@@ -4,7 +4,8 @@ trait BacktrackingSolution extends TravellingSalesman {
   def getMin(city: Int, otherCities: List[Int]): Int = {
     if (otherCities == Nil) 0
     else otherCities.foldLeft(otherCities.head)((acc, e) =>
-      if (abstand(city)(acc) < abstand(city)(e)) acc else e)
+      if (abstand(city)(acc) < abstand(city)(e)) acc
+      else e)
   }
 
   /** **********************************************
@@ -34,7 +35,7 @@ trait BacktrackingSolution extends TravellingSalesman {
   def calculateRoundTripWithSimpleBacktracking(list: List[Int]): List[Int] = {
     def tree(visited: List[Int], notVisited: List[Int], km: Int): (List[Int], Int) = notVisited match {
       case Nil => (visited, km + abstand(visited.last)(visited.head))
-      case rest => {
+      case _ => {
         // permutations again with the km distance
         val ways: List[(List[Int], Int)] = {
           for {
@@ -73,7 +74,7 @@ trait BacktrackingSolution extends TravellingSalesman {
   def calculateRoundTripWithOptimizedBacktracking(list: List[Int]): List[Int] = {
     def tree(visited: List[Int], notVisited: List[Int], km: Int, optKm: Int, optWay: List[Int]): (List[Int], Int) = notVisited match {
       case Nil => (visited, km + abstand(visited.last)(visited.head))
-      case rest => {
+      case _ => {
         val ways = notVisited.map(city => (city :: visited, notVisited.diff(List(city)), km + abstand(visited.head)(city)))
 
         ways.foldLeft(optWay, optKm)((opt, next) =>

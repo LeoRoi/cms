@@ -113,14 +113,31 @@ object Aufgaben {
   // indem der Baum Ebene fuer Ebene durchlaufen wird
   def breadthFirstSearch(tree: IntSet): List[Int] = {
     def bfs(nodes: List[IntSet]): List[Int] = nodes match {
-      case List()=> Nil //nil == empty list
+      case List() => Nil //nil == empty list
       case Empty :: tail => bfs(tail)
       case NonEmpty(head, Empty, Empty) :: tail => head :: bfs(tail)
       case NonEmpty(head, left: IntSet, right: IntSet) :: tail =>
         head :: bfs(tail ++ List(left, right))
       case _ => throw new Error("omg")
     }
+
     bfs(List(tree))
+  }
+
+  def printBreadthFirst(tree: IntSet): List[(Int, Int)] = {
+    def bfs(nodes: List[IntSet], lvl: Int): List[(Int, Int)] = nodes match {
+      case List() => Nil
+      case Empty :: tail => bfs(tail, lvl+1)
+      case NonEmpty(head , _, _) => {
+
+        case NonEmpty(head, Empty, Empty) :: tail => (head, lvl) :: bfs(tail, lvl)
+        case NonEmpty(head, left: IntSet, right: IntSet) :: tail =>
+          (head, lvl) :: bfs(tail ++ List(left, right), lvl)
+      }
+      case _ => throw new Error("omg")
+    }
+
+    bfs(List(tree), 0)
   }
 
   def printLevelOrder(tree: IntSet): List[Int] = {

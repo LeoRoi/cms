@@ -56,7 +56,8 @@ abstract trait TravellingSalesman {
     if (list == List()) List()
     else if (list.length == 1) list
     else {
-      val perms = findPermutations(list)
+//      val perms = findPermutations(list)
+      val perms = list.permutations.toList
       val head :: tail = perms
       findOpt(head, calculateCycle(head), tail)
     }
